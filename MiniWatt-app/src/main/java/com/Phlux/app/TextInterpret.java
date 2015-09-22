@@ -26,6 +26,10 @@ public final class TextInterpret
 		throw new AssertionError();
 	}
 	
+	/*
+	 * Given a list of strings, the function extracts all questions from within the strings
+	 * (even questions that are within a sentence--providing it matches the regex pattern)
+	 */
 	public static Queue<String> extractQuestions(String[] text)
 	{
 		Queue<String> questions = new LinkedList<String>();
@@ -40,6 +44,10 @@ public final class TextInterpret
 		return questions;
 	}
 	
+	/*
+	 * Given a File that points to a valid image (.png, .bmp, .jpg), will extract
+	 * all text from the image
+	 */
 	public static String[] parseImage(File file) throws IOException, TesseractException
 	{
 		Tesseract t = new Tesseract();
@@ -50,6 +58,10 @@ public final class TextInterpret
 		return text;
 	}
 	
+	/*
+	 * Given a File that points to a PDF with searchable text, will extract
+	 * all text from the PDF file.
+	 */
 	public static String[] parseDocument(File file) throws IOException
 	{
 		String rawText;
