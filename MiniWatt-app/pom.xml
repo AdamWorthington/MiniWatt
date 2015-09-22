@@ -25,46 +25,6 @@
         <version>2.0.0</version>
     </dependency>
   </dependencies>
-  <build>
-	<plugins>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-dependency-plugin</artifactId>
-			<version>2.8</version>
-			<executions>
-				<execution>
-					<id>copy</id>
-					<phase>install</phase>
-					<goals>
-						<goal>copy</goal>
-					</goals>
-					<configuration>
-						<artifactItems>
-							<artifactItem>      
-								<groupId>net.sourceforge.tess4j</groupId>
-								<artifactId>libtesseract</artifactId>
-								<version>3.02</version>
-								<type>dll</type>
-								<overWrite>false</overWrite>
-								<outputDirectory>${basedir}</outputDirectory>
-								<destFileName>libtesseract302.dll</destFileName>
-							</artifactItem>
-							<artifactItem>
-								<groupId>net.sourceforge.tess4j</groupId>
-								<artifactId>liblept</artifactId>
-								<version>1.68</version>
-								<type>dll</type>
-								<overWrite>false</overWrite>
-								<outputDirectory>${basedir}</outputDirectory>
-								<destFileName>liblept168.dll</destFileName>
-							</artifactItem>
-						</artifactItems>
-					</configuration>
-				</execution>
-			</executions>
-		</plugin>
-	</plugins>
-</build>
 </project>
 
 
