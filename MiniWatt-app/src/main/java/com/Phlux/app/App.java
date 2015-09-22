@@ -9,12 +9,12 @@ import org.apache.pdfbox.exceptions.COSVisitorException;
 import net.sourceforge.tess4j.TesseractException;
 
 /**
- * Hello world!
+ * Hello world! Test
  *
  */
 public class App 
 {
-    public static void main( String[] args )
+	public static void main( String[] args )
     {
     	/*
     	 * This is for when the document creator java file comes online. Ignore for now....
