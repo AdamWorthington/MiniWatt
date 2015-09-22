@@ -1,6 +1,5 @@
 package com.Phlux.app;
 
-import java.util.*;
 
 /*
  * The class that breaks down a question into a Question object
@@ -8,32 +7,32 @@ import java.util.*;
 public class QuestionParser
 {
 	
-	public static void parseQuestion(Question question, String questions_text)
+	public static void parseQuestion(Question question, String question_text)
 	{
 		int type = getType(question_text);
 		switch(type) {
-		case 1: question.setType = 1;
+		case 1: question.setType(1);
 				//call method of what questions
 				break;
-		case 2: question.setType = 2;
+		case 2: question.setType(2);
 				//call method of what questions
 				break;
-		case 3: question.setType = 3;
+		case 3: question.setType(3);
 				//call method of what questions
 				break;
-		case 4: question.setType = 4;
+		case 4: question.setType(4);
 				//call method of what questions
 				break;
-		case 5: question.setType = 5;
+		case 5: question.setType(5);
 				//call method of what questions
 				break;
-		case 6: question.setType = 6;
+		case 6: question.setType(6);
 				//call method of what questions
 				break;
-		case 7: question.setType = 7;
+		case 7: question.setType(7);
 				//call method of what questions
 				break;
-		default: question.setType = -1;
+		default: question.setType(-1);
 				//error 
 				break;
 		}

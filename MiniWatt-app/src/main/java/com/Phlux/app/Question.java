@@ -2,45 +2,49 @@ package com.Phlux.app;
 
 import java.util.*;
 
-/*
- * text of the question
- */
-private String question_text;
-/*
- * The kind of question enumerated
- * 1 = what
- * 2 = when
- * 3 = where
- * 4 = who
- * 5 = how
- * 6 = why
- * 7 = which
- */
-private int type;
-/*
- * The subject of the question
- */
-String subject_text;
-/*
- * The prepositions linked to the subject
- */
-LinkedList<String> subject_prepositions;
-/*
- * The predicate of the question
- */
-String predicate_text;
-/*
- * The prepositions linked to the predicate
- */
-LinkedList<String> predicate_prepositions;
-/*
- * Object that holds all of the information in a question
- */
+
 public class Question
 {
+	
+	
+	/*
+	 * text of the question
+	 */
+	private String question_text;
+	/*
+	 * The kind of question enumerated
+	 * 1 = what
+	 * 2 = when
+	 * 3 = where
+	 * 4 = who
+	 * 5 = how.
+	 * 6 = why
+	 * 7 = which
+	 */
+	private int type;
+	/*
+	 * The subject of the question
+	 */
+	String subject_text;
+	/*
+	 * The prepositions linked to the subject
+	 */
+	LinkedList<String> subject_prepositions;
+	/*
+	 * The predicate of the question
+	 */
+	String predicate_text;
+	/*
+	 * The prepositions linked to the predicate
+	 */
+	LinkedList<String> predicate_prepositions;
+	/*
+	 * Object that holds all of the information in a question
+	 */
+	
 	public Question(String question)
 	{
-		this.question = question_text;
+		this.question_text = question;
 	}
 
 	/*
@@ -52,7 +56,7 @@ public class Question
 		return type;
 	}
 
-	public Stirng getQuestionText()
+	public String getQuestionText()
 	{
 		return question_text;
 	}
