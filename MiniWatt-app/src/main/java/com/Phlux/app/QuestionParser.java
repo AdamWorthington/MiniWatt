@@ -1,11 +1,28 @@
 package com.Phlux.app;
 
+import java.util.*;
 
 /*
  * The class that breaks down a question into a Question object
  */
 public class QuestionParser
 {
+	/*
+	 * question text
+	 */
+	public static String question_text;
+	/*
+	 * words to skip
+	 */
+	public String[] uselessWords = {"are", "the", "is", "do", "does", "was"};
+	/*
+	 * prepositions
+	 */
+	public String[] prepositions = {"aboard","about","above","across","after","after","against","along", "amid", "among","anti","around","as","at","before",
+			"behind","below","beneath","beside","besides","between","beyond","but","by","concerning","considering","despite","down","during","except","excepting",
+			"excluding", "following","for","from","in","inside","into", "like","minus","near","of","off","on","onto","opposite","outside","over","past","per","plus",
+			"regearding", "round", "save", "since", "than", "through", "to", "toward", "under", "underneath", "unlike", "until", "up","upon","versus","via","with",
+			"within","without"};
 	
 	public static void parseQuestion(Question question, String question_text)
 	{
@@ -93,5 +110,44 @@ public class QuestionParser
 		}
 	}
 	
-	
+	/*
+	 * makes all questions start with the question words
+	 */
+	public static void moveFrontLoad(Question question, String q_word)
+	{
+		int index = question.getQuestionText().indexOf(q_word);
+		if(index == 0)
+		{
+			return;
+		}
+		else
+		{
+			String front = question_text.substring(0, index);
+			String back = question_text.substring(index, question_text.length());
+			String new_question = back.concat(front);
+			question_text = new_question;
+			return;
+		}
+	}
+	/*
+	 * find string a in array b
+	 */
+	public boolean findIn(String a, String[] b)
+	{
+		for(int i = 0; i < b.length; i++)
+		{
+			if(a.compareTo(b[i]) == 0)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	/*
+	 * This method is for What questions
+	 */
+	public static void whatQuestion(Question q)
+	{
+		
+	}
 }
