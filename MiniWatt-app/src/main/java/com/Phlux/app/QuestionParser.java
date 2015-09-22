@@ -14,11 +14,11 @@ public class QuestionParser
 	/*
 	 * words to skip
 	 */
-	public String[] uselessWords = {"are", "the", "is", "do", "does", "was"};
+	public static String[] uselessWords = {"are", "the", "is", "do", "does", "was"};
 	/*
 	 * prepositions
 	 */
-	public String[] prepositions = {"aboard","about","above","across","after","after","against","along", "amid", "among","anti","around","as","at","before",
+	public static String[] prepositions = {"aboard","about","above","across","after","after","against","along", "amid", "among","anti","around","as","at","before",
 			"behind","below","beneath","beside","besides","between","beyond","but","by","concerning","considering","despite","down","during","except","excepting",
 			"excluding", "following","for","from","in","inside","into", "like","minus","near","of","off","on","onto","opposite","outside","over","past","per","plus",
 			"regearding", "round", "save", "since", "than", "through", "to", "toward", "under", "underneath", "unlike", "until", "up","upon","versus","via","with",
@@ -26,10 +26,11 @@ public class QuestionParser
 	
 	public static void parseQuestion(Question question, String question_text)
 	{
-		int type = getType(question_text);
+		int type = getType(question_text, question);
+		System.out.println("type = " + type);
 		switch(type) {
 		case 1: question.setType(1);
-				//call method of what questions
+				whatQuestion(question);
 				break;
 		case 2: question.setType(2);
 				//call method of what questions
@@ -56,7 +57,7 @@ public class QuestionParser
 		
 	}
 	
-	public static int getType(String question)
+	public static int getType(String question, Question q)
 	{
 		/*
 		 * These may be needed later
@@ -75,32 +76,73 @@ public class QuestionParser
 		CharSequence which = "which";
 		CharSequence Which = "Which";*/
 		
-		if(question.contains("What") || question.contains("what"))
+		if(question.contains("What"))
 		{
+			moveFrontLoad(q, "What");
 			return 1;
 		}
-		else if(question.contains("When") || question.contains("when"))
+		else if(question.contains("what"))
 		{
+			moveFrontLoad(q, "what");
+			return 1;
+		}
+		else if(question.contains("When"))
+		{
+			moveFrontLoad(q, "When");
 			return 2;
 		}
-		else if(question.contains("Where") || question.contains("where"))
+		else if(question.contains("when"))
 		{
+			moveFrontLoad(q, "when");
+			return 2;
+		}
+		else if(question.contains("Where"))
+		{
+			moveFrontLoad(q, "Where");
 			return 3;
 		}
-		else if(question.contains("Who") || question.contains("who"))
+		else if(question.contains("where"))
 		{
+			moveFrontLoad(q, "where");
+			return 3;
+		}
+		else if(question.contains("Who"))
+		{
+			moveFrontLoad(q, "Who");
 			return 4;
 		}
-		else if(question.contains("How") || question.contains("how"))
+		else if(question.contains("who"))
+		{
+			moveFrontLoad(q, "who");
+			return 4;
+		}
+		else if(question.contains("How"))
+		{
+			moveFrontLoad(q, "How");
+			return 5;
+		}
+		else if(question.contains("how"))
 		{
 			return 5;
 		}
-		else if(question.contains("Why") || question.contains("why"))
+		else if(question.contains("Why"))
 		{
+			moveFrontLoad(q, "Why");
 			return 6;
 		}
-		else if(question.contains("Which") || question.contains("which"))
+		else if(question.contains("why"))
 		{
+			moveFrontLoad(q, "why");
+			return 6;
+		}
+		else if(question.contains("Which"))
+		{
+			moveFrontLoad(q, "Which");
+			return 7;
+		}
+		else if(question.contains("which"))
+		{
+			moveFrontLoad(q, "which");
 			return 7;
 		}
 		else
@@ -132,7 +174,7 @@ public class QuestionParser
 	/*
 	 * find string a in array b
 	 */
-	public boolean findIn(String a, String[] b)
+	public static boolean foundIn(String a, String[] b)
 	{
 		for(int i = 0; i < b.length; i++)
 		{
@@ -148,6 +190,141 @@ public class QuestionParser
 	 */
 	public static void whatQuestion(Question q)
 	{
+		//question text
+		String text = q.getQuestionText();
+		int previous_index = 0;
+		int current_index = text.indexOf(' ', previous_index);
+		String word = text.substring(previous_index, current_index);
+		String subject = "";
+		String predicate = "";
+		//has a subject been found, if so what position, default -1
+		int sub = -1;
+		//tracks word count
+		int wordCount = 1;
+		//currently in a prep phrase
+		boolean prep_phrase = false;
+		//is the current word a prep
+		boolean isPrep = false;
+		//if true, the preposition is for a subject
+		boolean subOrPred = true;
+		//linked list of prep phrases as strings
+		LinkedList<String> subPrepList = new LinkedList<String>();
+		//linked list of prep phrases for predicate
+		LinkedList<String> predPrepList = new LinkedList<String>();
+		//string of current prep phrase
+		String prep = new String();
 		
+		while(current_index > 0)
+		{
+			wordCount++;
+			previous_index = current_index + 1;
+			current_index = text.indexOf(' ', previous_index);
+			if(current_index < 0)
+			{
+				word = text.substring(previous_index, text.length());
+			}
+			else
+			{
+				word = text.substring(previous_index, current_index);
+			}
+			System.out.println("Word = " + word);
+			isPrep = foundIn(word, prepositions);
+			if(!foundIn(word, uselessWords))
+			{
+				word = word.concat(" ");
+				if(sub < 0)
+				{
+					subject = subject.concat(word);
+					sub = wordCount;
+				}
+				else if(sub + 1 == wordCount && !isPrep)
+				{
+					subject = subject.concat(word);
+					sub = wordCount;
+				}
+				else if(isPrep)
+				{
+					if(prep_phrase)
+					{
+						if(subOrPred)
+						{
+							subPrepList.add(prep);
+						}
+						else
+						{
+							predPrepList.add(prep);
+						}
+						prep = "";
+					}
+					prep = prep.concat(word);
+					prep_phrase = true;
+				}
+				else if(prep_phrase)
+				{
+					prep = prep.concat(word);
+				}
+				else
+				{
+					predicate = predicate.concat(word);
+				}
+			}
+			else
+			{
+				if(prep_phrase)
+				{
+					if(subOrPred)
+					{
+						subPrepList.add(prep);
+					}
+					else
+					{
+						predPrepList.add(prep);
+					}
+					prep = "";
+					prep_phrase = false;
+				}
+				if(sub > 0)
+				{
+					subOrPred = false;
+				}
+			}
+		}
+		//check for ending preposition
+		if(prep_phrase)
+		{
+			if(subOrPred)
+			{
+				subPrepList.add(prep);
+			}
+			else
+			{
+				predPrepList.add(prep);
+			}
+		}
+		//set Question object
+		q.setSubject(subject);
+		q.setSubjectPrepositions(subPrepList);
+		q.setPredicate(predicate);
+		q.setPredicatePrepositions(predPrepList);
+	}
+	//printer method
+	public static void printer(Question q)
+	{
+		System.out.println("========================================================================");
+		System.out.println("Queestion type = 			    " + q.getType());
+		System.out.println("Queestion subject = 		    " + q.getSubject());
+		System.out.println("Queestion preps for subject =   " + q.getSubjectPrepositions());
+		System.out.println("Queestion predicate = 		    " + q.getPredicate());
+		System.out.println("Queestion preps for predicate = " + q.getPredicatePrepositions());
+		System.out.println("========================================================================");
+	}
+	
+	//test main
+	
+	public static void main(String[] args)
+	{
+		Question q = new Question("What are the states of matter?");
+		parseQuestion(q, q .getQuestionText());
+		printer(q);
 	}
 }

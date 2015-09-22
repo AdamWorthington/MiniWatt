@@ -5,8 +5,6 @@ import java.util.*;
 
 public class Question
 {
-	
-	
 	/*
 	 * text of the question
 	 */
