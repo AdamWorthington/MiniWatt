@@ -26,32 +26,19 @@ public class QuestionParser
 			"regearding", "round", "save", "since", "than", "through", "to", "toward", "under", "underneath", "unlike", "until", "up","upon","versus","via","with",
 			"within","without"};
 	
-	public static void parseQuestion(Question question, String question_text)
+	public static void parseQuestion(Question question, String q_text)
 	{
-		QuestionType type = getType(question_text, question);
-		System.out.println("type = " + type);
+		question_text = q_text;
+		QuestionType type = getType(q_text, question);
 		question.setType(type);
+		if(question.getType() == QuestionType.WHAT)
+		{
+			whatQuestion(question);
+		}
 	}
 	
 	public static QuestionType getType(String question, Question q)
-	{
-		/*
-		 * These may be needed later
-		CharSequence what = "what";
-		CharSequence What = "What";
-		CharSequence when = "when";
-		CharSequence When = "When";
-		CharSequence where = "where";
-		CharSequence Where = "Where";
-		CharSequence who = "who";
-		CharSequence Who = "Who";
-		CharSequence how = "how";
-		CharSequence How = "How";
-		CharSequence why = "why";
-		CharSequence Why = "Why";
-		CharSequence which = "which";
-		CharSequence Which = "Which";*/
-		
+	{	
 		if(question.contains("What"))
 		{
 			moveFrontLoad(q, "What");
@@ -142,7 +129,10 @@ public class QuestionParser
 		{
 			String front = question_text.substring(0, index);
 			String back = question_text.substring(index, question_text.length());
+			back = back.replace('?', ' ');
 			String new_question = back.concat(front);
+			new_question = new_question.substring(0,new_question.length());
+			System.out.println(">"+new_question+"<");
 			question_text = new_question;
 			return;
 		}
@@ -167,7 +157,7 @@ public class QuestionParser
 	public static void whatQuestion(Question q)
 	{
 		//question text
-		String text = q.getQuestionText();
+		String text = question_text;
 		int previous_index = 0;
 		int current_index = text.indexOf(' ', previous_index);
 		String word = text.substring(previous_index, current_index);
@@ -287,11 +277,11 @@ public class QuestionParser
 	public static void printer(Question q)
 	{
 		System.out.println("========================================================================");
-		System.out.println("Queestion type = 			    " + q.getType());
-		System.out.println("Queestion subject = 		    " + q.getSubject());
-		System.out.println("Queestion preps for subject =   " + q.getSubjectPrepositions());
-		System.out.println("Queestion predicate = 		    " + q.getPredicate());
-		System.out.println("Queestion preps for predicate = " + q.getPredicatePrepositions());
+		System.out.println("Queestion type =		" + q.getType());
+		System.out.println("Queestion subject =		" + q.getSubject());
+		System.out.println("Queestion preps for subject =	" + q.getSubjectPrepositions());
+		System.out.println("Queestion predicate =	" + q.getPredicate());
+		System.out.println("Queestion preps for predicate =	" + q.getPredicatePrepositions());
 		System.out.println("========================================================================");
 	}
 	
@@ -299,8 +289,7 @@ public class QuestionParser
 	
 	public static void main(String[] args)
 	{
-		Question q = new Question("What are the states of matter?");
-		parseQuestion(q, q .getQuestionText());
+		Question q = new Question("At What are the states of matter?");
 		printer(q);
 	}
 }

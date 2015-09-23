@@ -49,6 +49,7 @@ public class Question
 	public Question(String question)
 	{
 		this.question_text = question;
+		QuestionParser.parseQuestion(this, this.question_text);
 	}
 
 	/*
