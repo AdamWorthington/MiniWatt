@@ -3,23 +3,29 @@ package com.Phlux.app;
 import java.util.*;
 
 
+
 public class Question
 {
+	public enum QuestionType
+	{
+		WHAT,
+		WHEN,
+		WHERE,
+		WHO,
+		HOW,
+		WHY,
+		WHICH,
+		INVALID,
+	};
+	
 	/*
 	 * text of the question
 	 */
 	private String question_text;
 	/*
 	 * The kind of question enumerated
-	 * 1 = what
-	 * 2 = when
-	 * 3 = where
-	 * 4 = who
-	 * 5 = how.
-	 * 6 = why
-	 * 7 = which
 	 */
-	private int type;
+	private QuestionType type;
 	/*
 	 * The subject of the question
 	 */
@@ -49,7 +55,7 @@ public class Question
 	 * Getter Methods
 	 * ========================================================================
 	 */
-	public int getType()
+	public QuestionType getType()
 	{
 		return type;
 	}
@@ -82,7 +88,7 @@ public class Question
 	 * Setter Methods
 	 * ========================================================================
 	 */
-	public void setType(int t)
+	public void setType(QuestionType t)
 	{
 		type = t;
 	}

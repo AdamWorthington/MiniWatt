@@ -2,6 +2,8 @@ package com.Phlux.app;
 
 import java.util.*;
 
+import com.Phlux.app.Question.QuestionType;
+
 /*
  * The class that breaks down a question into a Question object
  */
@@ -26,38 +28,12 @@ public class QuestionParser
 	
 	public static void parseQuestion(Question question, String question_text)
 	{
-		int type = getType(question_text, question);
+		QuestionType type = getType(question_text, question);
 		System.out.println("type = " + type);
-		switch(type) {
-		case 1: question.setType(1);
-				whatQuestion(question);
-				break;
-		case 2: question.setType(2);
-				//call method of what questions
-				break;
-		case 3: question.setType(3);
-				//call method of what questions
-				break;
-		case 4: question.setType(4);
-				//call method of what questions
-				break;
-		case 5: question.setType(5);
-				//call method of what questions
-				break;
-		case 6: question.setType(6);
-				//call method of what questions
-				break;
-		case 7: question.setType(7);
-				//call method of what questions
-				break;
-		default: question.setType(-1);
-				//error 
-				break;
-		}
-		
+		question.setType(type);
 	}
 	
-	public static int getType(String question, Question q)
+	public static QuestionType getType(String question, Question q)
 	{
 		/*
 		 * These may be needed later
@@ -79,76 +55,76 @@ public class QuestionParser
 		if(question.contains("What"))
 		{
 			moveFrontLoad(q, "What");
-			return 1;
+			return QuestionType.WHAT;
 		}
 		else if(question.contains("what"))
 		{
 			moveFrontLoad(q, "what");
-			return 1;
+			return QuestionType.WHAT;
 		}
 		else if(question.contains("When"))
 		{
 			moveFrontLoad(q, "When");
-			return 2;
+			return QuestionType.WHEN;
 		}
 		else if(question.contains("when"))
 		{
 			moveFrontLoad(q, "when");
-			return 2;
+			return QuestionType.WHEN;
 		}
 		else if(question.contains("Where"))
 		{
 			moveFrontLoad(q, "Where");
-			return 3;
+			return QuestionType.WHERE;
 		}
 		else if(question.contains("where"))
 		{
 			moveFrontLoad(q, "where");
-			return 3;
+			return QuestionType.WHERE;
 		}
 		else if(question.contains("Who"))
 		{
 			moveFrontLoad(q, "Who");
-			return 4;
+			return QuestionType.WHO;
 		}
 		else if(question.contains("who"))
 		{
 			moveFrontLoad(q, "who");
-			return 4;
+			return QuestionType.WHO;
 		}
 		else if(question.contains("How"))
 		{
 			moveFrontLoad(q, "How");
-			return 5;
+			return QuestionType.HOW;
 		}
 		else if(question.contains("how"))
 		{
-			return 5;
+			return QuestionType.HOW;
 		}
 		else if(question.contains("Why"))
 		{
 			moveFrontLoad(q, "Why");
-			return 6;
+			return QuestionType.WHY;
 		}
 		else if(question.contains("why"))
 		{
 			moveFrontLoad(q, "why");
-			return 6;
+			return QuestionType.WHY;
 		}
 		else if(question.contains("Which"))
 		{
 			moveFrontLoad(q, "Which");
-			return 7;
+			return QuestionType.WHICH;
 		}
 		else if(question.contains("which"))
 		{
 			moveFrontLoad(q, "which");
-			return 7;
+			return QuestionType.WHICH;
 		}
 		else
 		{
 			//no question word found
-			return -1;
+			return QuestionType.INVALID;
 		}
 	}
 	
