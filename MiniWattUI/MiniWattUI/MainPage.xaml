@@ -26,9 +26,17 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <ScrollViewer Grid.Row="0" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <TextBlock x:Name="QuestionsTitle" Text="Questions" Style="{ThemeResource SubheaderTextBlockStyle}" TextWrapping="Wrap" Margin="15,10,0,0"/>
-                        <Pivot Name="QuestionsTabs" Margin="0,5,0,0" Background="{ThemeResource PivotNavButtonBackgroundThemeBrush}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock x:Name="QuestionsTitle" Grid.Row="0" Text="Questions" Style="{ThemeResource SubheaderTextBlockStyle}" TextWrapping="Wrap" Margin="15,10,0,0"/>
+                        <Pivot Name="QuestionsTabs" Grid.Row="1" Margin="0,5,0,0" Background="{ThemeResource PivotNavButtonBackgroundThemeBrush}" ScrollViewer.VerticalScrollMode="Enabled">
                             <PivotItem x:Name="QuestionsFromText" Header="From Text" Background="{ThemeResource PivotHeaderBackgroundSelectedBrush}">
                                 <TextBox x:Name="QuestionsTextBox" Margin="20" MinHeight="200" AcceptsReturn="True"/>
                             </PivotItem>
@@ -43,9 +51,24 @@
                                 </StackPanel>
                             </PivotItem>
                         </Pivot>
-                        <TextBlock x:Name="SourceTitle" Text="Reference or Source Material (Optional)" Style="{ThemeResource SubheaderTextBlockStyle}" TextWrapping="Wrap" Margin="15,10,0,0"/>
-                        <Frame Name="SourceFrame" Margin="0,5,0,0"/>
-                    </StackPanel>
+                        <TextBlock x:Name="SourceTitle" Grid.Row="2" Text="Reference or Source Material (Optional)" Style="{ThemeResource SubheaderTextBlockStyle}" TextWrapping="Wrap" Margin="15,10,0,0"/>
+                        <Pivot Name="SourceTabs" Grid.Row="3" Margin="0,5,0,0" Background="{ThemeResource PivotNavButtonBackgroundThemeBrush}" ScrollViewer.IsDeferredScrollingEnabled="False">
+                            <PivotItem x:Name="SourceFromText" Header="From Text" Background="{ThemeResource PivotHeaderBackgroundSelectedBrush}">
+                                <TextBox x:Name="SourceTextBox" Margin="20" MinHeight="200" AcceptsReturn="True"/>
+                            </PivotItem>
+                            <PivotItem x:Name="SourceFromFile" Header="From File">
+                                <StackPanel Height="160">
+                                    <TextBlock x:Name="SourceChooseFileText" Text="Choose a File" Margin="10" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                                    <TextBlock x:Name="SourceFileChosenText" Text="File Chosen:" Margin="10,0,0,0" Style="{ThemeResource BodyTextBlockStyle}" Visibility="Collapsed"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Margin="30,10,20,20" x:Name="SourceBrowseButton" Content="Browse..." Click="SourceBrowseButton_Click"/>
+                                        <Button Margin="30,10,20,20" x:Name="SourceClearButton" Content="Clear" Visibility="Collapsed" Click="SourceClearButton_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </PivotItem>
+                        </Pivot>
+                        <Button x:Name="SubmitButton" Grid.Row="4" HorizontalAlignment="Center" Margin="20" Content="Submit" Click="SubmitButton_Click"/>
+                    </Grid>
                 </ScrollViewer>
                 <StackPanel Grid.Row="1" x:Name="ResultsPanel" Orientation="Vertical" Visibility="Collapsed">
                     <TextBlock x:Name="ResultsLabel" Margin="10,0,0,10" TextWrapping="Wrap" Text="Results"/>
@@ -65,7 +88,7 @@
                     </Button.Content>
                 </Button>
             </Border>
-            <TextBlock x:Name="Header" Text="MiniWATT UI" FontFamily="Segoe UI" FontSize="20" FontWeight="Light" Margin="10,0,0,0"/>
+            <TextBlock x:Name="Header" Text="MiniWatt UI" FontFamily="Segoe UI" FontSize="20" FontWeight="Light" Margin="10,0,0,0"/>
         </StackPanel>
 
     </Grid>

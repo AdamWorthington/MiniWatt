@@ -65,5 +65,39 @@ namespace MiniWattUI
             QuestionsClearButton.Visibility = Visibility.Collapsed;
             QuestionFileChosenText.Visibility = Visibility.Collapsed;
         }
+
+        private async void SourceBrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            FileOpenPicker openPicker = new FileOpenPicker();
+            openPicker.ViewMode = PickerViewMode.Thumbnail;
+            openPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+            openPicker.FileTypeFilter.Add(".jpg");
+            openPicker.FileTypeFilter.Add(".jpeg");
+            openPicker.FileTypeFilter.Add(".pdf");
+            _sourceFile = await openPicker.PickSingleFileAsync();
+            if (_questionsFile != null)
+            {
+                SourceFileChosenText.Visibility = Visibility.Visible;
+                SourceFileChosenText.Text = "File Chosen: " + _questionsFile.Name;
+                SourceClearButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                SourceFileChosenText.Visibility = Visibility.Collapsed;
+                SourceFileChosenText.Text = "File Chosen: ";
+            }
+        }
+
+        private void SourceClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            _sourceFile = null;
+            SourceClearButton.Visibility = Visibility.Collapsed;
+            SourceFileChosenText.Visibility = Visibility.Collapsed;
+        }
+
+        private void SubmitButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
