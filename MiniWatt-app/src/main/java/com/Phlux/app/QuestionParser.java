@@ -31,13 +31,32 @@ public class QuestionParser
 		question_text = q_text;
 		QuestionType type = getType(q_text, question);
 		question.setType(type);
-		if(question.getType() == QuestionType.WHAT)
+		switch(question.getType())
 		{
-			whatQuestion(question);
-		}
-		else
-		{
-			whenQuestion(question);
+			case WHAT:
+				whatQuestion(question);
+				break;
+			case WHY:
+				//whyQuestion(question);
+				break;
+			case WHEN:
+				whenQuestion(question);
+				break;
+			case WHERE:
+				//whereQuestion(question);
+				break;
+			case WHO:
+				//whoQuestion(question);
+				break;
+			case HOW:
+				//howQuestion(question);
+				break;
+			case WHICH:
+				//whichQuestion(question);
+				break;
+			case INVALID:
+			default:
+				break;
 		}
 	}
 	
@@ -306,6 +325,7 @@ public class QuestionParser
 		//string of current prep phrase
 		String prep = new String();
 		boolean prepbool = false;
+		
 		while(current_index > 0)
 		{
 			wordCount++;
@@ -423,6 +443,7 @@ public class QuestionParser
 	public static void main(String[] args)
 	{
 		Question q = new Question("When did King Henry the third die?");
+		whenQuestion(q);
 		printer(q);
 	}
 }
