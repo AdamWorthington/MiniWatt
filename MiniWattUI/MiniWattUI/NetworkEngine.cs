@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Json.JsonObject;
-using System.Json.JsonException;
+using System.Net;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
 
 namespace MiniWattUI
 {
@@ -31,23 +32,84 @@ namespace MiniWattUI
 
     class NetworkEngine
     {
-        public void post_question(Object question, QuestionType questionType, Object source, SourceType sourceType, ResponseType responceType)
+        String requestUrl = "This is a filler";
+        HttpClient client = new HttpClient();
+
+        public void post_question(Object question, QuestionType questionType, Object source, SourceType sourceType, ResponseType responseType)
         {
-            JSONObject quesion = new JSONObject();
+            JObject questionRequest = new JObject();
 
             try
             {
-
-            } catch(JSONException e)
-            {
-                e.printStackTrace();
+                questionRequest.Add(question);
             }
-             
+            catch (KeyNotFoundException k)
+            {
+            }
+
+            try
+            {
+                questionRequest.Add(questionType);
+            }
+            catch (KeyNotFoundException k)
+            {
+            }
+
+            try
+            {
+                questionRequest.Add(source);
+            }
+            catch (KeyNotFoundException k)
+            {
+            }
+
+            try
+            {
+                questionRequest.Add(sourceType);
+            }
+            catch (KeyNotFoundException k)
+            {
+            }
+
+            try
+            {
+                questionRequest.Add(responseType);
+            }
+            catch (KeyNotFoundException k)
+            {
+            }
+
+            // command to Post task
+
             
+           
+
         }
 
         public void recieve_answer()
         {
+            //get task (requestUrl, client);
+
+            JObject answerResponse = null;
+
+            try
+            {
+                //answerResponse = 
+            }
+            catch (ArgumentNullException)
+            { }
+
+            if (answerResponse == null)
+            {
+                //Server response error
+            }
+
+            try
+            {
+                // send results to be shown
+            }
+            catch (ArgumentNullException)
+            { }
 
         }
     }
