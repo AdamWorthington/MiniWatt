@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Http;
+using System.IO;
 using Newtonsoft.Json.Linq;
 
 namespace MiniWattUI
@@ -34,6 +35,16 @@ namespace MiniWattUI
     {
         String requestUrl = "This is a filler";
         HttpClient client = new HttpClient();
+
+        public string Base64Encode(FileStream fs)
+        {
+            MemoryStream ms = new MemoryStream();
+            fs.CopyTo(ms);
+            byte[] bytes = ms.ToArray();
+            ms.Dispose();
+
+            return Convert.ToBase64String(ms);
+        }
 
         public void post_question(Object question, QuestionType questionType, Object source, SourceType sourceType, ResponseType responseType)
         {

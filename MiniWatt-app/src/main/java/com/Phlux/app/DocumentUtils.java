@@ -1,5 +1,7 @@
 package com.Phlux.app;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,11 +14,32 @@ import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-public final class DocumentCreator 
+import com.lowagie.text.pdf.codec.Base64;
+
+public final class DocumentUtils 
 {
-	private DocumentCreator()
+	private DocumentUtils()
 	{
 		throw new AssertionError();
+	}
+	
+	public static PDDocument convertFromBase64(String strBase64) throws IOException
+	{
+		byte[] bytes = Base64.decode(strBase64);
+		ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
+		PDDocument doc = new PDDocument();
+		doc = PDDocument.load(stream);
+		
+		return doc;
+	}
+	
+	public static String covertDocToBase64(PDDocument doc) throws COSVisitorException, IOException
+	{
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		doc.save(stream);
+		byte[] bytes = stream.toByteArray();
+
+		return Base64.encodeBytes(bytes);
 	}
 	
 	public static PDDocument createAnswerDoc(String[] questions, String[] answers) throws IOException, COSVisitorException
