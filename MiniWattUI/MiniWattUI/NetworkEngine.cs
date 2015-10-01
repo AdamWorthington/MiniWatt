@@ -49,46 +49,20 @@ namespace MiniWattUI
         public void post_question(Object question, QuestionType questionType, Object source, SourceType sourceType, ResponseType responseType)
         {
             JObject questionRequest = new JObject();
-
+            
             try
             {
                 questionRequest.Add(question);
-            }
-            catch (KeyNotFoundException k)
-            {
-            }
-
-            try
-            {
                 questionRequest.Add(questionType);
-            }
-            catch (KeyNotFoundException k)
-            {
-            }
-
-            try
-            {
                 questionRequest.Add(source);
-            }
-            catch (KeyNotFoundException k)
-            {
-            }
-
-            try
-            {
                 questionRequest.Add(sourceType);
-            }
-            catch (KeyNotFoundException k)
-            {
-            }
-
-            try
-            {
                 questionRequest.Add(responseType);
             }
             catch (KeyNotFoundException k)
             {
+                // output qustionRequest error
             }
+
 
             // command to Post task
 
