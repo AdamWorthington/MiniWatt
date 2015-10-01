@@ -12,13 +12,12 @@ public class RemoteStorage
 	{
 		Class.forName("com.mysql.jdbc.Driver");
 		try {
-		Connection retcon = DriverManager.getConnection("jdbc:mysql://66.253.159.66/feedback?" + "user=lysander&password=greekpasscord");
+		Connection retcon = DriverManager.getConnection("jdbc:mysql://localhost/timhardy?" + "user=lysander&password=greekpasscord");
 		return retcon;
 		}
 		catch (SQLException e)
 		{
-		
-			return null;
+			throw e;
 		}
 	}
 	
@@ -34,15 +33,14 @@ public class RemoteStorage
 	
 	public static void store(Question q) throws ClassNotFoundException, SQLException
 	{
+		try {
 		supbro = connect();
-		if(!supbro.isValid(5))
+		}
+		catch (SQLException e)
 		{
-			return;
+			System.out.println("Connection failed.");
 		}
 		Statement s = supbro.createStatement();
-		
-		//select proper database
-		s.execute("use timhardy");
 		
 		//build the statement to execute
 		//example statement : "INSERT INTO questions (QTYPE, QTEXT, QSTEXT, QSPREP, QPTEXT, QPPREP) VALUES('who', 'who was dickphillips', 'dickphillips', 'animalbones', 'ppoos');
@@ -54,10 +52,18 @@ public class RemoteStorage
 		exestate += "\'" + q.getSubject() + "\', "; //subject_text to QSTEXT
 		exestate += "\'" + makeAString(q.getSubjectPrepositions()) + "\', "; //subject_prepositions to QSPREP
 		exestate += "\'" + q.getPredicate() + "\', "; //predicate_text to QPTEXT
-		exestate += "\'" + makeAString(q.getPredicatePrepositions()) + "\', "; //predicate_prepositions to QPREP
+		exestate += "\'" + makeAString(q.getPredicatePrepositions()) + "\'"; //predicate_prepositions to QPREP
 		exestate += ");";
 		
+		try {
 		s.execute(exestate);
+		}
+		catch (SQLException e)
+		{
+			System.out.println("Statement failed.");
+			supbro.close();
+			return;
+		}
 		supbro.close();
 	}
 }
