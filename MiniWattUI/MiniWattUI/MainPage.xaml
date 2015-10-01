@@ -36,6 +36,8 @@
                         </Grid.RowDefinitions>
                         
                         <TextBlock x:Name="QuestionsTitle" Grid.Row="0" Text="Questions" Style="{ThemeResource SubheaderTextBlockStyle}" TextWrapping="Wrap" Margin="15,10,0,0"/>
+                        <TextBox x:Name="QuestionsTextBox" Grid.Row="1" Margin="20" MinHeight="200" AcceptsReturn="True"/>
+                        <!-- Part of the pivots, which came into play when text or file could be chosen
                         <Pivot Name="QuestionsTabs" Grid.Row="1" Margin="0,5,0,0" Background="{ThemeResource PivotNavButtonBackgroundThemeBrush}" ScrollViewer.VerticalScrollMode="Enabled">
                             <PivotItem x:Name="QuestionsFromText" Header="From Text" Background="{ThemeResource PivotHeaderBackgroundSelectedBrush}">
                                 <TextBox x:Name="QuestionsTextBox" Margin="20" MinHeight="200" AcceptsReturn="True"/>
@@ -50,8 +52,10 @@
                                     </StackPanel>
                                 </StackPanel>
                             </PivotItem>
-                        </Pivot>
+                        </Pivot>-->
                         <TextBlock x:Name="SourceTitle" Grid.Row="2" Text="Reference or Source Material (Optional)" Style="{ThemeResource SubheaderTextBlockStyle}" TextWrapping="Wrap" Margin="15,10,0,0"/>
+                        <TextBox x:Name="SourceTextBox" Grid.Row="3" Margin="20" MinHeight="200" AcceptsReturn="True"/>
+                        <!-- Part of the pivots, which came into play when text or file could be chosen
                         <Pivot Name="SourceTabs" Grid.Row="3" Margin="0,5,0,0" Background="{ThemeResource PivotNavButtonBackgroundThemeBrush}" ScrollViewer.IsDeferredScrollingEnabled="False">
                             <PivotItem x:Name="SourceFromText" Header="From Text" Background="{ThemeResource PivotHeaderBackgroundSelectedBrush}">
                                 <TextBox x:Name="SourceTextBox" Margin="20" MinHeight="200" AcceptsReturn="True"/>
@@ -66,7 +70,7 @@
                                     </StackPanel>
                                 </StackPanel>
                             </PivotItem>
-                        </Pivot>
+                        </Pivot>-->
                         <Button x:Name="SubmitButton" Grid.Row="4" HorizontalAlignment="Center" Margin="20" Content="Submit" Click="SubmitButton_Click"/>
                     </Grid>
                 </ScrollViewer>
