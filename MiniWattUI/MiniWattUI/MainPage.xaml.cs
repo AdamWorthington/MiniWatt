@@ -37,7 +37,7 @@ namespace MiniWattUI
             Splitter.IsPaneOpen = !Splitter.IsPaneOpen;
         }
 
-        /*
+        
         private async void QuestionsBrowseButton_Click(object sender, RoutedEventArgs e)
         {
             FileOpenPicker openPicker = new FileOpenPicker();
@@ -95,7 +95,6 @@ namespace MiniWattUI
             SourceClearButton.Visibility = Visibility.Collapsed;
             SourceFileChosenText.Visibility = Visibility.Collapsed;
         }
-        */
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
