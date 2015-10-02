@@ -43,7 +43,7 @@ namespace MiniWattUI
             byte[] bytes = ms.ToArray();
             ms.Dispose();
 
-            return Convert.ToBase64String(ms);
+            return Convert.ToBase64String(bytes);
         }
 
         public void post_question(Object question, QuestionType questionType, Object source, SourceType sourceType, ResponseType responseType)
