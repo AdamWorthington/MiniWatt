@@ -79,5 +79,24 @@ public final class TextInterpret
 		
 		return text;
 	}
+	
+	/*
+	 * Given a File that points to a PDF with searchable text, will extract
+	 * all text from the PDF file.
+	 */
+	public static String[] parseDocument(PDDocument doc) throws IOException
+	{
+		String rawText;
+
+		PDFTextStripper stripper = new PDFTextStripper();
+		stripper.setStartPage(1);
+		stripper.setEndPage(doc.getNumberOfPages());
+		
+		rawText = stripper.getText(doc);
+		doc.close();
+		String[] text = rawText.split("\n");
+		
+		return text;
+	}
 }
 
