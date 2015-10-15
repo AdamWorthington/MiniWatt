@@ -17,6 +17,17 @@
       <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/Tess4J/lib/log4j-1.2.17.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/Tess4J/lib/xmlgraphics-commons-1.5.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/tess4j-2.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../org.json-20150729.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/commons-codec-1.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/fluent-hc-4.5.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpclient-4.5.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpclient-cache-4.5.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpclient-win-4.5.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpcore-4.4.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpmime-4.5.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/jna-4.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/jna-platform-4.1.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
