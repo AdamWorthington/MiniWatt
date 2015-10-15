@@ -1,0 +1,24 @@
+<component name="libraryTable">
+  <library name="fontbox-1.8.10">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../fontbox-1.8.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../jempbox-1.8.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../pdfbox-1.8.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../preflight-1.8.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../xmpbox-1.8.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/Tess4J/lib/commons-beanutils-1.9.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/Tess4J/lib/commons-io-2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/Tess4J/lib/commons-logging-1.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/Tess4J/lib/ghost4j-0.5.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/Tess4J/lib/itext-2.1.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/Tess4J/lib/jai_imageio.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/Tess4J/lib/jna.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/Tess4J/lib/junit-4.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/Tess4J/lib/log4j-1.2.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/Tess4J/lib/xmlgraphics-commons-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Tess4J-2.0-src/tess4j-2.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
