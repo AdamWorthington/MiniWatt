@@ -52,7 +52,8 @@ enum ResponseType
 public class NetworkEngine
 {
     private final static String postUrl = "http://1-dot-miniwatt-1099.appspot.com/work";
-    private final static HttpClient client = new DefaultHttpClient();
+    private final static CloseableHttpAsyncClient client = HttpAsyncClients.createDefault();
+    
     public String Base64Encode(FileInputStream fs) {
         byte[] bytes = null;
         try {
@@ -82,7 +83,9 @@ public class NetworkEngine
         pairs.add(new BasicNameValuePair("SourceSize", Integer.toString(sourceSize)));
 
         // command to Post task
-        CloseableHttpAsyncClient client = HttpAsyncClients.createDefault();
+        
+        PostTask task = new PostTask(postUrl, client, pairs);
+        
         HttpResponse response = null;
         try
         {
@@ -108,5 +111,49 @@ public class NetworkEngine
         {
             client.close();
         }
+    }    
+}
+class PostTask extends AsyncTask<Void, Void, List> {
+    HttpClient client;
+    String url;
+    List pairs;
+
+    PostTask(String url, HttpClient client, ArrayList <> pairs) {
+        this.client = client;
+        this.url = url;
+        this.pairs = pairs;
+    }
+    
+    HttpPost post = new HttpPost(url);
+    
+    HttpResponse response = null;
+    try{
+    	StringEntity se = new StringEntity(request.toString());
+    	post.setEntity(se);
+    	
+    	response = client.execute(post);
+    }catch(IOException e){
+    		e.printStackTrace();
+    }
+    
+    if(response == null){
+    	System.out.println("No response from server");
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
