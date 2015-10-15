@@ -28,6 +28,14 @@
       <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpmime-4.5.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/jna-4.1.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/jna-platform-4.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/commons-codec-1.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpasyncclient-4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpasyncclient-cache-4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpclient-4.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpclient-cache-4.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpcore-4.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpcore-nio-4.4.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="cde542b9-46be-40de-8c82-be708e69549a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/MiniWattUI/NetworkEngine.java" afterPath="$PROJECT_DIR$/src/MiniWattUI/NetworkEngine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/fontbox_1_8_10.xml" afterPath="$PROJECT_DIR$/.idea/libraries/fontbox_1_8_10.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MiniWattUI.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,11 +54,11 @@
       <file leaf-file-name="NetworkEngine.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MiniWattUI/NetworkEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.35255712">
-              <caret line="101" column="14" selection-start-line="101" selection-start-column="14" selection-end-line="101" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.68552774">
+              <caret line="96" column="60" selection-start-line="96" selection-start-column="60" selection-end-line="96" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2214#2229#0" expanded="true" />
+                <element signature="e#2501#2516#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -157,7 +159,7 @@
     <panes />
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/jna-platform-4.1.0.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpcore-nio-4.4.1.jar!/" />
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
@@ -486,11 +488,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MiniWattUI/NetworkEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35255712">
-          <caret line="101" column="14" selection-start-line="101" selection-start-column="14" selection-end-line="101" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.68552774">
+          <caret line="96" column="60" selection-start-line="96" selection-start-column="60" selection-end-line="96" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2214#2229#0" expanded="true" />
+            <element signature="e#2501#2516#0" expanded="true" />
           </folding>
         </state>
       </provider>
