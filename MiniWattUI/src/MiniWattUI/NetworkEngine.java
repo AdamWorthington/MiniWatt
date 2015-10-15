@@ -14,14 +14,12 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.nio.client.HttpAsyncClient;
-import org.apache.http.params.HttpParams;
 import org.apache.pdfbox.io.IOUtils;
 import org.json.*;
 import sun.misc.BASE64Encoder;
@@ -30,17 +28,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-
-
-enum QuestionType
-{
-    TEXT,
-    PDF,
-    JPG
-};
 
 enum SourceType
 {
@@ -62,9 +53,7 @@ enum ResponseType
  */
 public class NetworkEngine
 {
-    String requestUrl = "This is a filler";
-    private final String postUrl = "";
-    HttpGet httpget = new HttpGet("http://www.google.com/search?hl=en&q=httpclient&btnG=Google+Search&aq=f&oq=");
+    private final static String postUrl = "http://1-dot-miniwatt-1099.appspot.com/work";
 
     public String Base64Encode(FileInputStream fs) {
         byte[] bytes = null;
@@ -81,20 +70,18 @@ public class NetworkEngine
         return encoder.encode(bytes);
     }
 
-    public void post_question(String[] questions, QuestionType questionType, Object source, SourceType sourceType, ResponseType responseType, int numQuestions) throws Exception
+    public static void post_question(Queue<String> questions, String[] source, int numQuestions, int sourceSize) throws Exception
     {
-        JSONObject questionRequest = new JSONObject();
-
         List<NameValuePair> pairs = new ArrayList<NameValuePair>();
 
         for(int i = 0; i < numQuestions; i++)
-            pairs.add(new BasicNameValuePair("Question" + Integer.toString(i), questions[i]));
+            pairs.add(new BasicNameValuePair("Question" + Integer.toString(i), questions.remove()));
 
-        pairs.add(new BasicNameValuePair("QuestionType", questionType.toString()));
-        pairs.add(new BasicNameValuePair("Source", source.toString()));
-        pairs.add(new BasicNameValuePair("SourceType", sourceType.toString()));
-        pairs.add(new BasicNameValuePair("ResponseType", responseType.toString()));
+        for(int i = 0; i < sourceSize; i++)
+            pairs.add(new BasicNameValuePair("Source" + Integer.toString(i), source[i]));
+
         pairs.add(new BasicNameValuePair("NumQuestions", Integer.toString(numQuestions)));
+        pairs.add(new BasicNameValuePair("SourceSize", Integer.toString(sourceSize)));
 
         // command to Post task
         CloseableHttpAsyncClient client = HttpAsyncClients.createDefault();
