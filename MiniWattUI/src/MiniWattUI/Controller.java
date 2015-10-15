@@ -45,7 +45,7 @@ public class Controller
             String[] questionDoc = null;
             String[] sourceDoc = null;
             String extension = getFileExtension(questionFile);
-            if(extension == "pdf")
+            if(extension.compareTo("pdf") == 0)
                 questionDoc = TextInterpret.parseDocument(questionFile);
             else
                 questionDoc = TextInterpret.parseImage(questionFile);
@@ -54,9 +54,8 @@ public class Controller
 
             if(sourceFile != null)
             {
-
                 extension = getFileExtension(sourceFile);
-                if(extension == "pdf")
+                if(extension.compareTo("pdf") == 0)
                     sourceDoc = TextInterpret.parseDocument(sourceFile);
                 else
                     sourceDoc = TextInterpret.parseImage(sourceFile);
