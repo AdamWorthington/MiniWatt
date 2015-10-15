@@ -52,7 +52,7 @@ enum ResponseType
 public class NetworkEngine
 {
     private final static String postUrl = "http://1-dot-miniwatt-1099.appspot.com/work";
-
+    private final static HttpClient client = new DefaultHttpClient();
     public String Base64Encode(FileInputStream fs) {
         byte[] bytes = null;
         try {
