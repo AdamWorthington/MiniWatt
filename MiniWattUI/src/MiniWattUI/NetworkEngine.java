@@ -24,9 +24,7 @@ import org.apache.pdfbox.io.IOUtils;
 import org.json.*;
 import sun.misc.BASE64Encoder;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.List;
@@ -97,9 +95,14 @@ public class NetworkEngine
 
             System.out.println(response.getStatusLine());
             HttpEntity entity = response.getEntity();
-            // do something useful with the response body
-            // and ensure it is fully consumed
-            //EntityUtils.consume(entity);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
+            StringBuilder out = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                out.append(line);
+            }
+            System.out.println(out.toString());   //Prints the string content read from input stream
+
         }
         finally
         {
