@@ -15,6 +15,12 @@ public class AnswerFinder
 		this.sources = sources;
 	}
 	
+	public AnswerFinder(String source)
+	{
+		this.sources = new ArrayList<String>();
+		this.sources.add(source);
+	}
+	
 	private List<ImmutablePair<String, Integer>> searchOnKeyword(String keyword, String source, Question question)
 	{
 		List<ImmutablePair<String, Integer>> result = new ArrayList<ImmutablePair<String, Integer>>();
@@ -22,6 +28,8 @@ public class AnswerFinder
 		
 		String subject = question.getSubject();
 		String predicate = question.getPredicate();
+		if(predicate.indexOf('?') != -1)
+			predicate = predicate.substring(0, predicate.length()-2);
 		String[] predToks = predicate.split(" ");
 		
 		int startIndex = src.indexOf(keyword);
@@ -40,7 +48,7 @@ public class AnswerFinder
 			if(endOfSentence == -1)
 				endOfSentence = src.length() - 1;
 			
-			String sentence = src.substring(startOfSentence, endOfSentence);
+			String sentence = src.substring(startOfSentence + 1, endOfSentence);
 			//Try to find the subject in the sentence.
 			int subjectIndex = sentence.indexOf(subject);
 			if(subjectIndex == -1)
@@ -66,7 +74,7 @@ public class AnswerFinder
 			
 			result.add(new ImmutablePair<String, Integer>(sentence, certainty));
 			
-			src.substring(endOfSentence);
+			src = src.substring(endOfSentence);
 			startIndex = src.indexOf(keyword);
 		}
 		
