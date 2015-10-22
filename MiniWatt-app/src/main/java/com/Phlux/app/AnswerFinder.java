@@ -15,53 +15,69 @@ public class AnswerFinder
 		this.sources = sources;
 	}
 	
-	private ImmutablePair<String, Integer> whatQuestion(Question question, String source) 
+	private List<ImmutablePair<String, Integer>> searchOnKeyword(String keyword, String source, Question question)
 	{
-		ImmutablePair<String, Integer> result = null;
-		
-		return result;
-	}
-	
-	private ImmutablePair<String, Integer> whyQuestion(Question question, String source)  
-	{
-		ImmutablePair<String, Integer> result = null;
+		List<ImmutablePair<String, Integer>> result = new ArrayList<ImmutablePair<String, Integer>>();
+		String src = source;
 		
 		String subject = question.getSubject();
 		
-		int startIndex = source.indexOf("because");
-		if(startIndex == -1)
-			return null;
-		String substr = source.substring(0, startIndex);
+		int startIndex = src.indexOf(keyword);
+		while(startIndex != -1)
+		{
+			//Get the start of the sentence.
+			int startOfSentence = src.substring(0, startIndex).indexOf(".");
+			if(startOfSentence == -1)
+				startOfSentence = 0;
+			
+			//Get the end of the sentence.
+			int endOfSentence = src.indexOf(".", startIndex);
+			if(endOfSentence == -1)
+				endOfSentence = src.length() - 1;
+			
+			String sentence = src.substring(startOfSentence, endOfSentence);
+			//Try to find the subject in the sentence.
+			int subjectIndex = sentence.indexOf(subject);
+			if(subjectIndex == -1)
+				result.add(new ImmutablePair<String, Integer>(sentence, 25));
+			else
+				result.add(new ImmutablePair<String, Integer>(sentence, 75));
+			
+			src.substring(endOfSentence);
+			startIndex = src.indexOf(keyword);
+		}
 		
 		return result;
 	}
 	
-	private ImmutablePair<String, Integer> whereQuestion(Question question, String source)  
+	private List<ImmutablePair<String, Integer>> whatQuestion(Question question, String source)  
 	{
-		ImmutablePair<String, Integer> result = null;
-		
-		return result;
+		return searchOnKeyword("is", source, question);
 	}
 	
-	private ImmutablePair<String, Integer> whenQuestion(Question question, String source) 
+	private List<ImmutablePair<String, Integer>> whyQuestion(Question question, String source)  
 	{
-		ImmutablePair<String, Integer> result = null;
-		
-		return result;
+		return searchOnKeyword("because", source, question);
 	}
 	
-	private ImmutablePair<String, Integer> whoQuestion(Question question, String source)  
+	private List<ImmutablePair<String, Integer>> whereQuestions(Question question, String source)  
 	{
-		ImmutablePair<String, Integer> result = null;
-		
-		return result;
+		return searchOnKeyword("in", source, question);
 	}
 	
-	private ImmutablePair<String, Integer> howQuestion(Question question, String source)  
+	private List<ImmutablePair<String, Integer>> whenQuestion(Question question, String source) 
 	{
-		ImmutablePair<String, Integer> result = null;
-		
-		return result;
+		return searchOnKeyword("in", source, question);
+	}
+	
+	private List<ImmutablePair<String, Integer>> whoQuestion(Question question, String source)  
+	{
+		return searchOnKeyword("is", source, question);
+	}
+	
+	private List<ImmutablePair<String, Integer>> howQuestion(Question question, String source)  
+	{
+		return searchOnKeyword("by", source, question);
 	}
 	
 	private ImmutablePair<String, Integer> whichQuestion(Question question, String source) 
@@ -71,16 +87,16 @@ public class AnswerFinder
 		return result;
 	}
 	
-	public List<ImmutablePair<String, Integer>> findAnswer(Question question)
+	public List<List<ImmutablePair<String, Integer>>> findAnswer(Question question)
 	{
-		List<ImmutablePair<String, Integer>> answers = new ArrayList<ImmutablePair<String, Integer>>();
+		List<List<ImmutablePair<String, Integer>>> answers = new ArrayList<List<ImmutablePair<String, Integer>>>();
 		
 		switch(question.getType())
 		{
 			case WHAT:
 				for(String source : sources)
 				{
-					ImmutablePair<String, Integer> result = whatQuestion(question, source);
+					List<ImmutablePair<String, Integer>> result = whatQuestion(question, source);
 					if(result != null)
 						answers.add(result);
 				}
@@ -88,7 +104,7 @@ public class AnswerFinder
 			case WHY:
 				for(String source : sources)
 				{
-					ImmutablePair<String, Integer> result = whyQuestion(question, source);
+					List<ImmutablePair<String, Integer>>result = whyQuestion(question, source);
 					if(result != null)
 						answers.add(result);
 				}
@@ -96,7 +112,7 @@ public class AnswerFinder
 			case WHEN:
 				for(String source : sources)
 				{
-					ImmutablePair<String, Integer> result = whenQuestion(question, source);
+					List<ImmutablePair<String, Integer>> result = whenQuestion(question, source);
 					if(result != null)
 						answers.add(result);
 				}
@@ -104,7 +120,7 @@ public class AnswerFinder
 			case WHERE:
 				for(String source : sources)
 				{
-					ImmutablePair<String, Integer> result = whereQuestion(question, source);
+					List<ImmutablePair<String, Integer>> result = whereQuestion(question, source);
 					if(result != null)
 						answers.add(result);
 				}
@@ -112,7 +128,7 @@ public class AnswerFinder
 			case WHO:
 				for(String source : sources)
 				{
-					ImmutablePair<String, Integer> result = whoQuestion(question, source);
+					List<ImmutablePair<String, Integer>> result = whoQuestion(question, source);
 					if(result != null)
 						answers.add(result);
 				}
@@ -120,7 +136,7 @@ public class AnswerFinder
 			case HOW:
 				for(String source : sources)
 				{
-					ImmutablePair<String, Integer> result = howQuestion(question, source);
+					List<ImmutablePair<String, Integer>> result = howQuestion(question, source);
 					if(result != null)
 						answers.add(result);
 				}
@@ -128,7 +144,7 @@ public class AnswerFinder
 			case WHICH:
 				for(String source : sources)
 				{
-					ImmutablePair<String, Integer> result = whichQuestion(question, source);
+					List<ImmutablePair<String, Integer>> result = whichQuestion(question, source);
 					if(result != null)
 						answers.add(result);
 				}
@@ -138,7 +154,11 @@ public class AnswerFinder
 		}
 		
 		if(answers.size() == 0)
-			answers.add(new ImmutablePair<String, Integer>("No Answer", 100));
+		{
+			List<ImmutablePair<String, Integer>> result = new ArrayList<ImmutablePair<String, Integer>>();
+			result.add(new ImmutablePair<String, Integer>("No Answer", 100));
+			answers.add(result);
+		}
 
 		return answers;
 	}
