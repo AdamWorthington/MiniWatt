@@ -34,7 +34,7 @@ public class App
 		} catch (COSVisitorException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}*/
+		}
 				
 		File fil1 = new File("C:/Users/cdwil/Desktop/test.pdf"); //Pointer to a pdf file with searchable text
 		File fil2 = new File("C:/Users/cdwil/Desktop/testImage.jpg"); //Pointer to an image that contains text
@@ -64,6 +64,8 @@ public class App
 		catch (TesseractException e)
 		{
 			e.printStackTrace();
-		}
+		}*/
+		
+		
     }
 }

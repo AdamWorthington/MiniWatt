@@ -21,10 +21,15 @@ public class AnswerFinder
 		String src = source;
 		
 		String subject = question.getSubject();
+		String predicate = question.getPredicate();
+		String[] predToks = predicate.split(" ");
 		
 		int startIndex = src.indexOf(keyword);
 		while(startIndex != -1)
 		{
+			//The certainty that we have a correct answer.
+			int certainty = 0;
+			
 			//Get the start of the sentence.
 			int startOfSentence = src.substring(0, startIndex).indexOf(".");
 			if(startOfSentence == -1)
@@ -39,9 +44,27 @@ public class AnswerFinder
 			//Try to find the subject in the sentence.
 			int subjectIndex = sentence.indexOf(subject);
 			if(subjectIndex == -1)
-				result.add(new ImmutablePair<String, Integer>(sentence, 25));
+				certainty += 25;
 			else
-				result.add(new ImmutablePair<String, Integer>(sentence, 75));
+				certainty += 50;
+			
+			int hits = 0;
+			int total = predToks.length;
+			int[] distances = new int[total];
+			for(int j = 0; j < total; j++)
+			{
+				int i = sentence.indexOf(predToks[j]);
+				if(i != -1)
+					hits++;
+				
+				distances[j] = i;
+			}
+			
+			float percentageHit = ((float)hits / (float)total);
+			int frac = (int) (percentageHit*25);
+			certainty += frac;
+			
+			result.add(new ImmutablePair<String, Integer>(sentence, certainty));
 			
 			src.substring(endOfSentence);
 			startIndex = src.indexOf(keyword);
@@ -60,7 +83,7 @@ public class AnswerFinder
 		return searchOnKeyword("because", source, question);
 	}
 	
-	private List<ImmutablePair<String, Integer>> whereQuestions(Question question, String source)  
+	private List<ImmutablePair<String, Integer>> whereQuestion(Question question, String source)  
 	{
 		return searchOnKeyword("in", source, question);
 	}
@@ -80,11 +103,9 @@ public class AnswerFinder
 		return searchOnKeyword("by", source, question);
 	}
 	
-	private ImmutablePair<String, Integer> whichQuestion(Question question, String source) 
+	private List<ImmutablePair<String, Integer>> whichQuestion(Question question, String source) 
 	{
-		ImmutablePair<String, Integer> result = null;
-		
-		return result;
+		return null;
 	}
 	
 	public List<List<ImmutablePair<String, Integer>>> findAnswer(Question question)
