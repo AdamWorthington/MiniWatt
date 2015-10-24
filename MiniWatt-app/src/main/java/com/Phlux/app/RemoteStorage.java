@@ -2,6 +2,7 @@ package com.Phlux.app;
 
 import java.sql.*;
 import java.util.LinkedList;
+import java.net.*;
 
 //TABLE questions (QTYPE VARCHAR(6), QTEXT VARCHAR(140), QSTEXT VARCHAR(30), QSPREP VARCHAR(30), QPTEXT VARCHAR(30), QPPREP VARCHAR(30));
 public class RemoteStorage 
@@ -10,15 +11,44 @@ public class RemoteStorage
 	
 	public static Connection connect() throws ClassNotFoundException, SQLException
 	{
-		Class.forName("com.mysql.jdbc.Driver");
+		//this code connects from your app engine bullshit
 		try {
-		Connection retcon = DriverManager.getConnection("jdbc:mysql://localhost/timhardy?" + "user=lysander&password=greekpasscord");
+			Class.forName("com.mysql.jdbc.GoogleDriver");
+		}
+		catch (ClassNotFoundException e)
+		{
+			System.out.println("Class not found.");
+			throw e;
+		}
+		try {
+		Connection retcon = DriverManager.getConnection("jdbc:google:mysql://civic-vigil-109921:timhardy?user=root");
 		return retcon;
 		}
 		catch (SQLException e)
 		{
+			System.out.println("Connectin Failed.");
 			throw e;
 		}
+		
+		/*
+		 * String url = null;
+			if (SystemProperty.environment.value() ==
+    			SystemProperty.Environment.Value.Production) {
+  				// Connecting from App Engine.
+  				// Load the class that provides the "jdbc:google:mysql://"
+  				// prefix.
+  				Class.forName("com.mysql.jdbc.GoogleDriver");
+  				url =
+    			"jdbc:google:mysql://civic-vigil-109921:tomhardy?user=root";
+			} else {
+ 				// Connecting from an external network.
+  				Class.forName("com.mysql.jdbc.Driver");
+  				url = "jdbc:mysql://173.194.80.81:3306?user=root";
+			}
+			Connection conn = DriverManager.getConnection(url);
+			ResultSet rs = conn.createStatement().executeQuery(
+    		"SELECT 1 + 1");
+		 */
 	}
 	
 	public static String makeAString(LinkedList<String> l)
@@ -31,38 +61,48 @@ public class RemoteStorage
 		return retval;
 	}
 	
-	public static void store(Question q) throws ClassNotFoundException, SQLException
+	public static void store(Question q, String answer) throws ClassNotFoundException, SQLException
 	{
 		try {
 		supbro = connect();
-		}
-		catch (SQLException e)
+		Statement s = supbro.createStatement();
+		s.execute("use jimhardy;");
+		} 
+		catch (Exception e)
 		{
 			System.out.println("Connection failed.");
 		}
-		Statement s = supbro.createStatement();
 		
 		//build the statement to execute
-		//example statement : "INSERT INTO questions (QTYPE, QTEXT, QSTEXT, QSPREP, QPTEXT, QPPREP) VALUES('who', 'who was dickphillips', 'dickphillips', 'animalbones', 'ppoos');
-		String exestate = "INSERT INTO questions (QTYPE, QTEXT, QSTEXT, QSPREP, QPTEXT, QPPREP) VALUES(";
-		
-		//break down the question object
-		exestate += "\'" + q.getType().toString() + "\', "; //type to QTYPE
-		exestate += "\'" + q.getQuestionText() + "\', "; //question_text to QTEXT
-		exestate += "\'" + q.getSubject() + "\', "; //subject_text to QSTEXT
-		exestate += "\'" + makeAString(q.getSubjectPrepositions()) + "\', "; //subject_prepositions to QSPREP
-		exestate += "\'" + q.getPredicate() + "\', "; //predicate_text to QPTEXT
-		exestate += "\'" + makeAString(q.getPredicatePrepositions()) + "\'"; //predicate_prepositions to QPREP
-		exestate += ");";
-		
+		//example statement : "INSERT INTO questions (question, answer) VALUES('who', 'who was dickphillips');
+		String exestate = "INSERT INTO qna VALUES(?, ?)";
+		PreparedStatement st;
 		try {
-		s.execute(exestate);
+			st = supbro.prepareStatement(exestate);
 		}
-		catch (SQLException e)
+		catch (SQLException e) //why?
 		{
 			System.out.println("Statement failed.");
 			supbro.close();
 			return;
+		}
+		
+		//break down the question object
+		try {
+		st.setString(1, q.getQuestionText()); //question_text to QTEXT
+		st.setString(2, answer); //this doesn't yet exist
+		}
+		catch(Exception e)
+		{
+			System.out.println("Failed to add to statement.");
+		}
+		
+		try{
+			st.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Failed to execute statement.");
 		}
 		supbro.close();
 	}
