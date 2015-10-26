@@ -31,23 +31,11 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-enum SourceType
-{
-    TEXT,
-    PDF,
-    JPG,
-    NULL
-};
-
-enum ResponseType
-{
-    TEXT,
-    PDF
-};
 
 
 /**
  * Created by cdwil on 10/15/2015.
+ * A class meant to handle all of the interfacing with the MiniWATT server.
  */
 public class NetworkEngine
 {
@@ -68,18 +56,21 @@ public class NetworkEngine
         return encoder.encode(bytes);
     }
 
-    public static void post_question(Queue<String> questions, String[] source, int numQuestions, int sourceSize) throws Exception
+    public static void post_question(Queue<String> questions, String[] source) throws Exception
     {
         List<NameValuePair> pairs = new ArrayList<NameValuePair>();
 
-        for(int i = 0; i < numQuestions; i++)
+        for(int i = 0; i < questions.size(); i++)
             pairs.add(new BasicNameValuePair("Question" + Integer.toString(i), questions.remove()));
+        pairs.add(new BasicNameValuePair("NumQuestions", Integer.toString(questions.size())));
 
-        for(int i = 0; i < sourceSize; i++)
-            pairs.add(new BasicNameValuePair("Source" + Integer.toString(i), source[i]));
+        if (source != null) {
+            for (int i = 0; i < source.length; i++)
+                pairs.add(new BasicNameValuePair("Source" + Integer.toString(i), source[i]));
+            pairs.add(new BasicNameValuePair("SourceSize", Integer.toString(source.length)));
+        }
 
-        pairs.add(new BasicNameValuePair("NumQuestions", Integer.toString(numQuestions)));
-        pairs.add(new BasicNameValuePair("SourceSize", Integer.toString(sourceSize)));
+        pairs.add(new BasicNameValuePair("SourceSize", Integer.toString(0)));
 
         // command to Post task
         CloseableHttpAsyncClient client = HttpAsyncClients.createDefault();

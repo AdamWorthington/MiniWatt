@@ -61,7 +61,7 @@ public class Controller
                     sourceDoc = TextInterpret.parseImage(sourceFile);
             }
 
-            NetworkEngine.post_question(questions, sourceDoc, questions.size(), sourceDoc.length);
+            NetworkEngine.post_question(questions, sourceDoc);
         }
         catch(Exception e)
         {
@@ -75,6 +75,13 @@ public class Controller
         if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
             return fileName.substring(fileName.lastIndexOf(".")+1);
         else return "";
+    }
+
+    private static void configureFileChooser(FileChooser fileChooser)
+    {
+        fileChooser.setInitialDirectory(
+          new File(System.getProperty("user.home"))
+        );
     }
 
 }
