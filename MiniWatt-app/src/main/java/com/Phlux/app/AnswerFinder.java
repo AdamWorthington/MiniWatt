@@ -2,6 +2,8 @@ package com.Phlux.app;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -26,35 +28,54 @@ public class AnswerFinder
 		List<ImmutablePair<String, Integer>> result = new ArrayList<ImmutablePair<String, Integer>>();
 		String src = source;
 		
+		Pattern re = Pattern.compile(
+	            "# Match a sentence ending in punctuation or EOS.\n" +
+	            "[^.!?\\s]    # First char is non-punct, non-ws\n" +
+	            "[^.!?]*      # Greedily consume up to punctuation.\n" +
+	            "(?:          # Group for unrolling the loop.\n" +
+	            "  [.!?]      # (special) inner punctuation ok if\n" +
+	            "  (?!['\"]?\\s|$)  # not followed by ws or EOS.\n" +
+	            "  [^.!?]*    # Greedily consume up to punctuation.\n" +
+	            ")*           # Zero or more (special normal*)\n" +
+	            "[.!?]?       # Optional ending punctuation.\n" +
+	            "['\"]?       # Optional closing quote.\n" +
+	            "(?=\\s|$)", 
+	            Pattern.MULTILINE | Pattern.COMMENTS);
+
+		
 		String subject = question.getSubject();
 		String predicate = question.getPredicate();
 		if(predicate.indexOf('?') != -1)
 			predicate = predicate.substring(0, predicate.length()-2);
 		String[] predToks = predicate.split(" ");
 		
-		int startIndex = src.indexOf(keyword);
-		while(startIndex != -1)
+		ArrayList<String> sentences = new ArrayList<String>();
+		Matcher sentenceMatcher = re.matcher(source);
+		while(sentenceMatcher.find())
+			sentences.add(sentenceMatcher.group());
+		
+		for(String sentence : sentences)
 		{
+			boolean predWordsPresent = true;
+			boolean subjectPresent = true;
 			//The certainty that we have a correct answer.
 			int certainty = 0;
 			
-			//Get the start of the sentence.
-			int startOfSentence = src.substring(0, startIndex).indexOf(".");
-			if(startOfSentence == -1)
-				startOfSentence = 0;
+			//Try to find the subject in the sentence.
+			boolean keywordPresent = sentence.contains(" " + keyword + " ");
+			if(!keywordPresent)
+				continue;
 			
-			//Get the end of the sentence.
-			int endOfSentence = src.indexOf(".", startIndex);
-			if(endOfSentence == -1)
-				endOfSentence = src.length() - 1;
-			
-			String sentence = src.substring(startOfSentence + 1, endOfSentence);
+			//It contains the keyword
+			certainty += 25;
+
 			//Try to find the subject in the sentence.
 			int subjectIndex = sentence.indexOf(subject);
 			if(subjectIndex == -1)
-				certainty += 25;
-			else
-				certainty += 50;
+				continue;
+			
+			//It contains the subject
+			certainty += 25;
 			
 			int hits = 0;
 			int total = predToks.length;
@@ -72,10 +93,11 @@ public class AnswerFinder
 			int frac = (int) (percentageHit*25);
 			certainty += frac;
 			
-			result.add(new ImmutablePair<String, Integer>(sentence, certainty));
+			if(hits == 0)
+				predWordsPresent = false;
 			
-			src = src.substring(endOfSentence);
-			startIndex = src.indexOf(keyword);
+			if(predWordsPresent)
+				result.add(new ImmutablePair<String, Integer>(sentence, certainty));
 		}
 		
 		return result;
@@ -83,7 +105,12 @@ public class AnswerFinder
 	
 	private List<ImmutablePair<String, Integer>> whatQuestion(Question question, String source)  
 	{
-		return searchOnKeyword("is", source, question);
+		List<ImmutablePair<String, Integer>> compiled = new ArrayList<ImmutablePair<String, Integer>>();
+		compiled.addAll(searchOnKeyword("is", source, question));
+		compiled.addAll(searchOnKeyword("be", source, question));
+		compiled.addAll(searchOnKeyword("are", source, question));
+		
+		return compiled;
 	}
 	
 	private List<ImmutablePair<String, Integer>> whyQuestion(Question question, String source)  
