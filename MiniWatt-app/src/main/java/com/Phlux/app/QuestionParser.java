@@ -426,6 +426,129 @@ public class QuestionParser
 		q.setPredicate(predicate);
 		q.setPredicatePrepositions(predPrepList);
 	}
+	
+	//one method to rule them all
+	public static void questionParse(Question q)
+	{
+		//question text
+		String text = question_text;
+		int previous_index = 0;
+		int current_index = text.indexOf(' ', previous_index);
+		String word = text.substring(previous_index, current_index);
+		String subject = "";
+		String predicate = "";
+		//has a subject been found, if so what position, default -1
+		int sub = -1;
+		//tracks word count
+		int wordCount = 1;
+		//currently in a prep phrase
+		boolean prep_phrase = false;
+		//is the current word a prep
+		boolean isPrep = false;
+		//if true, the preposition is for a subject
+		boolean subOrPred = true;
+		//linked list of prep phrases as strings
+		LinkedList<String> subPrepList = new LinkedList<String>();
+		//linked list of prep phrases for predicate
+		LinkedList<String> predPrepList = new LinkedList<String>();
+		//string of current prep phrase
+		String prep = new String();
+		
+		while(current_index > 0)
+		{
+			wordCount++;
+			previous_index = current_index + 1;
+			current_index = text.indexOf(' ', previous_index);
+			if(current_index < 0)
+			{
+				word = text.substring(previous_index, text.length());
+			}
+			else
+			{
+				word = text.substring(previous_index, current_index);
+			}
+			System.out.println("Word = " + word);
+			isPrep = foundIn(word, prepositions);
+			if(!foundIn(word, uselessWords))
+			{
+				word = word.concat(" ");
+				if(sub < 0)
+				{
+					subject = subject.concat(word);
+					sub = wordCount;
+				}
+				else if(sub + 1 == wordCount && !isPrep)
+				{
+					subject = subject.concat(word);
+					sub = wordCount;
+				}
+				else if(isPrep)
+				{
+					if(prep_phrase)
+					{
+						if(subOrPred)
+						{
+							subPrepList.add(prep);
+						}
+						else
+						{
+							predPrepList.add(prep);
+						}
+						prep = "";
+					}
+					prep = prep.concat(word);
+					prep_phrase = true;
+				}
+				else if(prep_phrase)
+				{
+					prep = prep.concat(word);
+				}
+				else
+				{
+					predicate = predicate.concat(word);
+				}
+			}
+			else
+			{
+				if(prep_phrase)
+				{
+					if(subOrPred)
+					{
+						subPrepList.add(prep);
+					}
+					else
+					{
+						predPrepList.add(prep);
+					}
+					prep = "";
+					prep_phrase = false;
+				}
+				if(sub > 0)
+				{
+					subOrPred = false;
+				}
+			}
+		}
+		//check for ending preposition
+		if(prep_phrase)
+		{
+			if(subOrPred)
+			{
+				subPrepList.add(prep);
+			}
+			else
+			{
+				predPrepList.add(prep);
+			}
+		}
+		//set Question object
+		
+		q.setSubject(subject);
+		q.setSubjectPrepositions(subPrepList);
+		q.setPredicate(predicate);
+		q.setPredicatePrepositions(predPrepList);
+}
+	
 	//printer method
 	public static void printer(Question q)
 	{
