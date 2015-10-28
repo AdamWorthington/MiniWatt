@@ -28,6 +28,7 @@ public class AnswerFinder
 		List<ImmutablePair<String, Integer>> result = new ArrayList<ImmutablePair<String, Integer>>();
 		String src = source;
 		
+		//This is the pattern to match and pull sentences from the source docs
 		Pattern re = Pattern.compile(
 	            "# Match a sentence ending in punctuation or EOS.\n" +
 	            "[^.!?\\s]    # First char is non-punct, non-ws\n" +
@@ -45,10 +46,13 @@ public class AnswerFinder
 		
 		String subject = question.getSubject();
 		String predicate = question.getPredicate();
+		//Sometimes the question object forgets to remove the question mark from the last word
+		//this will remove it if it exists.
 		if(predicate.indexOf('?') != -1)
 			predicate = predicate.substring(0, predicate.length()-2);
 		String[] predToks = predicate.split(" ");
 		
+		//This pulls apart all the sentences of the source doc
 		ArrayList<String> sentences = new ArrayList<String>();
 		Matcher sentenceMatcher = re.matcher(source);
 		while(sentenceMatcher.find())
@@ -77,6 +81,7 @@ public class AnswerFinder
 			//It contains the subject
 			certainty += 25;
 			
+			//Now we search for other key words and add the certainty if we find them.
 			int hits = 0;
 			int total = predToks.length;
 			int[] distances = new int[total];
@@ -96,6 +101,7 @@ public class AnswerFinder
 			if(hits == 0)
 				predWordsPresent = false;
 			
+			//if it contained at least a keyword, we add the result.
 			if(predWordsPresent)
 				result.add(new ImmutablePair<String, Integer>(sentence, certainty));
 		}
