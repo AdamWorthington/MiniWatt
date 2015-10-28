@@ -25,39 +25,18 @@ public class QuestionParser
 			"excluding", "following","for","from","in","inside","into", "like","minus","near","of","off","on","onto","opposite","outside","over","past","per","plus",
 			"regearding", "round", "save", "since", "than", "through", "to", "toward", "under", "underneath", "unlike", "until", "up","upon","versus","via","with",
 			"within","without"};
-	
+	/*
+	 * Subject ending Location
+	 */
+	public static int subjectEnd;
 	public static void parseQuestion(Question question, String q_text)
 	{
 		question_text = q_text;
 		QuestionType type = getType(q_text, question);
 		question.setType(type);
-		switch(question.getType())
-		{
-			case WHAT:
-				whatQuestion(question);
-				break;
-			case WHY:
-				//whyQuestion(question);
-				break;
-			case WHEN:
-				whenQuestion(question);
-				break;
-			case WHERE:
-				//whereQuestion(question);
-				break;
-			case WHO:
-				//whoQuestion(question);
-				break;
-			case HOW:
-				//howQuestion(question);
-				break;
-			case WHICH:
-				//whichQuestion(question);
-				break;
-			case INVALID:
-			default:
-				break;
-		}
+		findSubject(question);
+		findKeyWords(question);
+		
 	}
 	
 	public static QuestionType getType(String question, Question q)
@@ -174,380 +153,201 @@ public class QuestionParser
 		}
 		return false;
 	}
-	/*
-	 * This method is for What questions
-	 */
-	public static void whatQuestion(Question q)
+	
+	public static void findSubject(Question q)
 	{
-		//question text
 		String text = question_text;
 		int previous_index = 0;
 		int current_index = text.indexOf(' ', previous_index);
 		String word = text.substring(previous_index, current_index);
 		String subject = "";
-		String predicate = "";
-		//has a subject been found, if so what position, default -1
-		int sub = -1;
-		//tracks word count
-		int wordCount = 1;
-		//currently in a prep phrase
-		boolean prep_phrase = false;
-		//is the current word a prep
-		boolean isPrep = false;
-		//if true, the preposition is for a subject
-		boolean subOrPred = true;
-		//linked list of prep phrases as strings
-		LinkedList<String> subPrepList = new LinkedList<String>();
-		//linked list of prep phrases for predicate
-		LinkedList<String> predPrepList = new LinkedList<String>();
-		//string of current prep phrase
-		String prep = new String();
-		
+		boolean upper = false;
+		int lastUpper = 0;
 		while(current_index > 0)
 		{
-			wordCount++;
+			//get the next word
+			//skips the question word
 			previous_index = current_index + 1;
 			current_index = text.indexOf(' ', previous_index);
 			if(current_index < 0)
 			{
 				word = text.substring(previous_index, text.length());
+				word = word.replace('?', ' ');
 			}
 			else
 			{
 				word = text.substring(previous_index, current_index);
+				word = word.replace('?', ' ');
 			}
-			//System.out.println("Word = " + word);
-			isPrep = foundIn(word, prepositions);
+			lastUpper++;
 			if(!foundIn(word, uselessWords))
 			{
-				word = word.concat(" ");
-				if(sub < 0)
+				if(Character.isUpperCase(word.charAt(0)))
 				{
+					upper = true;
 					subject = subject.concat(word);
-					sub = wordCount;
-				}
-				else if(sub + 1 == wordCount && !isPrep)
-				{
-					subject = subject.concat(word);
-					sub = wordCount;
-				}
-				else if(isPrep)
-				{
-					if(prep_phrase)
-					{
-						if(subOrPred)
-						{
-							subPrepList.add(prep);
-						}
-						else
-						{
-							predPrepList.add(prep);
-						}
-						prep = "";
-					}
-					prep = prep.concat(word);
-					prep_phrase = true;
-				}
-				else if(prep_phrase)
-				{
-					prep = prep.concat(word);
+					subject = subject.concat(" ");
+					q.setSubject(subject);
+					lastUpper = 0;
 				}
 				else
 				{
-					predicate = predicate.concat(word);
-				}
-			}
-			else
-			{
-				if(prep_phrase)
-				{
-					if(subOrPred)
+					if(upper && lastUpper < 3)
 					{
-						subPrepList.add(prep);
-					}
-					else
-					{
-						predPrepList.add(prep);
-					}
-					prep = "";
-					prep_phrase = false;
-				}
-				if(sub > 0)
-				{
-					subOrPred = false;
-				}
-			}
-		}
-		//check for ending preposition
-		if(prep_phrase)
-		{
-			if(subOrPred)
-			{
-				subPrepList.add(prep);
-			}
-			else
-			{
-				predPrepList.add(prep);
-			}
-		}
-		//set Question object
-		q.setSubject(subject);
-		q.setSubjectPrepositions(subPrepList);
-		q.setPredicate(predicate);
-		q.setPredicatePrepositions(predPrepList);
-	}
-	/*
-	 * method for when questions
-	 */
-	public static void whenQuestion(Question q)
-	{
-		//question text
-		String text = question_text;
-		int previous_index = 0;
-		int current_index = text.indexOf(' ', previous_index);
-		String word = text.substring(previous_index, current_index);
-		String subject = "";
-		String predicate = "";
-		//has a subject been found, if so what position, default -1
-		int sub = -1;
-		//tracks word count
-		int wordCount = 1;
-		//currently in a prep phrase
-		boolean prep_phrase = false;
-		//is the current word a prep
-		boolean isPrep = false;
-		//if true, the preposition is for a subject
-		boolean subOrPred = true;
-		//linked list of prep phrases as strings
-		LinkedList<String> subPrepList = new LinkedList<String>();
-		//linked list of prep phrases for predicate
-		LinkedList<String> predPrepList = new LinkedList<String>();
-		//string of current prep phrase
-		String prep = new String();
-		boolean prepbool = false;
-		
-		while(current_index > 0)
-		{
-			wordCount++;
-			previous_index = current_index + 1;
-			current_index = text.indexOf(' ', previous_index);
-			if(current_index < 0)
-			{
-				word = text.substring(previous_index, text.length());
-			}
-			else
-			{
-				word = text.substring(previous_index, current_index);
-			}
-			//System.out.println("Word = " + word);
-			isPrep = foundIn(word, prepositions);
-			if(!foundIn(word, uselessWords))
-			{
-				word = word.concat(" ");
-				if(sub < 0)
-				{
-					subject = subject.concat(word);
-					sub = wordCount;
-				}
-				else if(isPrep)
-				{
-					prepbool = true;
-					if(prep_phrase)
-					{
-						if(subOrPred)
+						//only concat to subject if upper case is within the next two words
+						//hold onto current values 
+						int x = current_index;
+						int y = previous_index;
+						String temp = word;
+						previous_index = current_index + 1;
+						current_index = text.indexOf(' ', previous_index);
+						if(current_index < 0)
 						{
-							subPrepList.add(prep);
+							current_index = x;
+							previous_index = y;
+							word = temp;
+							q.setSubject(subject);
+							subjectEnd = current_index;
+							System.out.println("Subject: " + subject + " Pos: " + subjectEnd);
+							return;
 						}
 						else
 						{
-							predPrepList.add(prep);
+							System.out.println("here");
+							word = text.substring(previous_index, current_index);
+							word = word.replace('?', ' ');
 						}
-						prep = "";
+						
+						if(!(Character.isUpperCase(word.charAt(0))))
+						{
+							previous_index = current_index + 1;
+							current_index = text.indexOf(' ', previous_index);
+							if(current_index < 0)
+							{
+								current_index = x;
+								previous_index = y;
+								word = temp;
+								q.setSubject(subject);
+								subjectEnd = previous_index;
+								System.out.println("Subject: " + subject + " Pos: " + subjectEnd);
+								return;
+							}
+							else
+							{
+								word = text.substring(previous_index, current_index);
+								word = word.replace('?', ' ');
+							}
+							
+							if(Character.isUpperCase(word.charAt(0)))
+							{
+								//restore previous values
+								current_index = x;
+								previous_index = y;
+								word = temp;
+								subject = subject.concat(word);
+								subject = subject.concat(" ");
+								q.setSubject(subject);
+							}
+							else
+							{
+								//end case of proper subject
+								current_index = x;
+								previous_index = y;
+								word = temp;
+								q.setSubject(subject);
+								subjectEnd = previous_index;
+								System.out.println("Subject: " + subject + " Pos: " + subjectEnd);
+								return;
+							}
+						}
+						else
+						{
+							//restore previous values
+							current_index = x;
+							previous_index = y;
+							word = temp;
+							subject = subject.concat(word);
+							subject = subject.concat(" ");
+							q.setSubject(subject);
+						}
 					}
-					prep = prep.concat(word);
-					prep_phrase = true;
-				}
-				else if(prep_phrase && prepbool)
-				{
-					prepbool = false;
-					prep = prep.concat(word);
-					if(subOrPred)
+					else if(upper && lastUpper >= 3)
 					{
-						subPrepList.add(prep);
+						//end case of proper subject
+						q.setSubject(subject);
+						subjectEnd = previous_index;
+						System.out.println("Subject: " + subject + " Pos: " + subjectEnd);
+						return;
 					}
-					else
+					else if(!upper)
 					{
-						predPrepList.add(prep);
+						subject = subject.concat(word);
+						subject = subject.concat(" ");
+						q.setSubject(subject);
+						
 					}
-					prep = "";
-					prep_phrase = false;
-				}
-				else
-				{
-					predicate = predicate.concat(word);
 				}
 			}
 			else
 			{
-				if(prep_phrase)
+				if(subject.length() > 1)
 				{
-					if(subOrPred)
-					{
-						subPrepList.add(prep);
-					}
-					else
-					{
-						predPrepList.add(prep);
-					}
-					prep = "";
-					prep_phrase = false;
-				}
-				if(sub > 0)
-				{
-					subOrPred = false;
+					subjectEnd = previous_index;
+					System.out.println("Subject: " + subject + " Pos: " + subjectEnd);
+					return;
 				}
 			}
 		}
-		//check for ending preposition
-		if(prep_phrase)
-		{
-			if(subOrPred)
-			{
-				subPrepList.add(prep);
-			}
-			else
-			{
-				predPrepList.add(prep);
-			}
-		}
-		//set Question object
 		q.setSubject(subject);
-		q.setSubjectPrepositions(subPrepList);
-		q.setPredicate(predicate);
-		q.setPredicatePrepositions(predPrepList);
+		subjectEnd = previous_index;
+		System.out.println("Subject: " + subject + " Pos: " + subjectEnd);
 	}
 	
-	//one method to rule them all
-	public static void questionParse(Question q)
+	public static void findKeyWords(Question q)
 	{
-		//question text
 		String text = question_text;
-		int previous_index = 0;
+		int previous_index = subjectEnd;
 		int current_index = text.indexOf(' ', previous_index);
-		String word = text.substring(previous_index, current_index);
-		String subject = "";
+		String word;
 		String predicate = "";
-		//has a subject been found, if so what position, default -1
-		int sub = -1;
-		//tracks word count
-		int wordCount = 1;
-		//currently in a prep phrase
-		boolean prep_phrase = false;
-		//is the current word a prep
-		boolean isPrep = false;
-		//if true, the preposition is for a subject
-		boolean subOrPred = true;
-		//linked list of prep phrases as strings
-		LinkedList<String> subPrepList = new LinkedList<String>();
-		//linked list of prep phrases for predicate
-		LinkedList<String> predPrepList = new LinkedList<String>();
-		//string of current prep phrase
-		String prep = new String();
-		
+		if(current_index < 0)
+		{
+			word = text.substring(previous_index, text.length());
+			word = word.replace('?', ' ');
+		}
+		else
+		{
+			word = text.substring(previous_index, current_index);
+			word = word.replace('?', ' ');
+		}
+		if(!foundIn(word, uselessWords))
+		{
+			predicate = predicate.concat(word);
+			predicate = predicate.concat(" ");
+		}
 		while(current_index > 0)
 		{
-			wordCount++;
+			//get the next word starting where the subject ended
 			previous_index = current_index + 1;
 			current_index = text.indexOf(' ', previous_index);
 			if(current_index < 0)
 			{
 				word = text.substring(previous_index, text.length());
+				word = word.replace('?', ' ');
 			}
 			else
 			{
 				word = text.substring(previous_index, current_index);
+				word = word.replace('?', ' ');
 			}
-			System.out.println("Word = " + word);
-			isPrep = foundIn(word, prepositions);
 			if(!foundIn(word, uselessWords))
 			{
-				word = word.concat(" ");
-				if(sub < 0)
-				{
-					subject = subject.concat(word);
-					sub = wordCount;
-				}
-				else if(sub + 1 == wordCount && !isPrep)
-				{
-					subject = subject.concat(word);
-					sub = wordCount;
-				}
-				else if(isPrep)
-				{
-					if(prep_phrase)
-					{
-						if(subOrPred)
-						{
-							subPrepList.add(prep);
-						}
-						else
-						{
-							predPrepList.add(prep);
-						}
-						prep = "";
-					}
-					prep = prep.concat(word);
-					prep_phrase = true;
-				}
-				else if(prep_phrase)
-				{
-					prep = prep.concat(word);
-				}
-				else
-				{
-					predicate = predicate.concat(word);
-				}
-			}
-			else
-			{
-				if(prep_phrase)
-				{
-					if(subOrPred)
-					{
-						subPrepList.add(prep);
-					}
-					else
-					{
-						predPrepList.add(prep);
-					}
-					prep = "";
-					prep_phrase = false;
-				}
-				if(sub > 0)
-				{
-					subOrPred = false;
-				}
+				predicate = predicate.concat(word);
+				predicate = predicate.concat(" ");
 			}
 		}
-		//check for ending preposition
-		if(prep_phrase)
-		{
-			if(subOrPred)
-			{
-				subPrepList.add(prep);
-			}
-			else
-			{
-				predPrepList.add(prep);
-			}
-		}
-		//set Question object
-		
-		q.setSubject(subject);
-		q.setSubjectPrepositions(subPrepList);
 		q.setPredicate(predicate);
-		q.setPredicatePrepositions(predPrepList);
-}
+	}
 	
 	//printer method
 	public static void printer(Question q)
@@ -561,12 +361,4 @@ public class QuestionParser
 		System.out.println("========================================================================");
 	}
 	
-	//test main
-	
-	public static void main(String[] args)
-	{
-		Question q = new Question("When did King Henry the third die?");
-		whenQuestion(q);
-		printer(q);
-	}
 }
