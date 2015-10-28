@@ -216,7 +216,7 @@ public class QuestionParser
 			{
 				word = text.substring(previous_index, current_index);
 			}
-			System.out.println("Word = " + word);
+			//System.out.println("Word = " + word);
 			isPrep = foundIn(word, prepositions);
 			if(!foundIn(word, uselessWords))
 			{
@@ -339,7 +339,7 @@ public class QuestionParser
 			{
 				word = text.substring(previous_index, current_index);
 			}
-			System.out.println("Word = " + word);
+			//System.out.println("Word = " + word);
 			isPrep = foundIn(word, prepositions);
 			if(!foundIn(word, uselessWords))
 			{

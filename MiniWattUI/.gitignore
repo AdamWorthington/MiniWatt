@@ -1,0 +1,4 @@
+workspace.xml
+out/
+*.dll
+*.zip

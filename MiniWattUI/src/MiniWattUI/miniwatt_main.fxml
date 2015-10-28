@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MiniWattUI.MiniWattController">
+   <children>
+      <AnchorPane prefHeight="88.0" prefWidth="800.0" VBox.vgrow="NEVER">
+         <children>
+            <ImageView fitHeight="88.0" fitWidth="365.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@res/MiniWattLogo(med).png" />
+               </image>
+            </ImageView>
+            <HBox alignment="CENTER_RIGHT" layoutX="686.0" layoutY="-6.0" prefHeight="100.0" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="submitStatusLabel" textFill="RED">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <ToggleButton fx:id="historyButton" mnemonicParsing="false" onAction="#onHistoryButtonClicked">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@res/ic_history_48px-128.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="History" />
+                     </tooltip>
+                  </ToggleButton>
+                  <Button fx:id="submitButton" mnemonicParsing="false" onAction="#onSubmitButtonClicked">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@res/ic_results_48px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Submit" />
+                     </tooltip></Button>
+               </children>
+               <padding>
+                  <Insets right="30.0" />
+               </padding>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <HBox fx:id="mainHBox" VBox.vgrow="ALWAYS">
+         <children>
+            <VBox fx:id="resultsVBox" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: f0f0f0;" HBox.hgrow="ALWAYS">
+               <children>
+                  <AnchorPane>
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label text="Results">
+                                 <font>
+                                    <Font size="30.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="resultsStatusLabel" textFill="RED">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="resultsCloseButton" alignment="CENTER_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onResultsCloseClicked" text="Close" />
+                           </children>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+                  <TextArea fx:id="resultsTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                     </VBox.margin>
+                  </TextArea>
+               </children>
+            </VBox>
+            <ScrollPane fx:id="mainScrollPane" fitToHeight="true" fitToWidth="true" HBox.hgrow="ALWAYS">
+               <content>
+                  <VBox>
+                     <children>
+                        <VBox fx:id="submissionVBox">
+                           <children>
+                              <VBox fx:id="questionsVBox">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                       <children>
+                                          <Label text="Questions">
+                                             <font>
+                                                <Font size="30.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label fx:id="questionsStatusLabel" textFill="RED">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox spacing="10.0">
+                                       <children>
+                                          <ToggleButton fx:id="questionsAsTextButton" mnemonicParsing="false" text="As Text">
+                                             <font>
+                                                <Font size="12.0" />
+                                             </font>
+                                          </ToggleButton>
+                                          <ToggleButton fx:id="questionsFromFileButton" mnemonicParsing="false" text="From File">
+                                             <font>
+                                                <Font size="12.0" />
+                                             </font>
+                                          </ToggleButton>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets left="10.0" right="10.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                    <TextArea fx:id="questionsTextArea" minHeight="-Infinity" prefHeight="150.0" promptText="Write your questions here." wrapText="true">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </TextArea>
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                       <children>
+                                          <Label text="Question File Chosen: ">
+                                             <font>
+                                                <Font name="System Bold" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="questionsFileText" text="no file chosen">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="questionsFileBrowseButton" mnemonicParsing="false" onAction="#onQuestionFileBrowseClicked" text="Browse...">
+                                             <font>
+                                                <Font size="13.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="questionsFileClearButton" mnemonicParsing="false" onAction="#onQuestionFileClearClicked" text="Clear">
+                                             <font>
+                                                <Font size="13.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="15.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <VBox fx:id="referenceVBox">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                       <children>
+                                          <Label text="Reference">
+                                             <font>
+                                                <Font size="30.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label fx:id="referenceStatusLabel" textFill="RED">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox spacing="10.0">
+                                       <children>
+                                          <ToggleButton fx:id="referenceAsNullButton" mnemonicParsing="false" text="No Reference">
+                                             <font>
+                                                <Font size="12.0" />
+                                             </font>
+                                          </ToggleButton>
+                                          <ToggleButton fx:id="referenceAsTextButton" mnemonicParsing="false" text="As Text">
+                                             <font>
+                                                <Font size="12.0" />
+                                             </font>
+                                          </ToggleButton>
+                                          <ToggleButton fx:id="referenceFromFileButton" mnemonicParsing="false" text="From File">
+                                             <font>
+                                                <Font size="12.0" />
+                                             </font>
+                                          </ToggleButton>
+                                       </children>
+                                       <padding>
+                                          <Insets left="10.0" right="10.0" top="5.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <TextArea fx:id="referenceTextArea" minHeight="-Infinity" prefHeight="150.0" promptText="Write your reference/source material here." wrapText="true">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                                       </VBox.margin>
+                                    </TextArea>
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                       <children>
+                                          <Label text="Reference File Chosen: ">
+                                             <font>
+                                                <Font name="System Bold" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="referenceFileText" text="no file chosen">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="referenceFileBrowseButton" mnemonicParsing="false" onAction="#onReferenceFileBrowseClicked" text="Browse...">
+                                             <font>
+                                                <Font size="13.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="referenceFileClearButton" mnemonicParsing="false" onAction="#onReferenceFileClearClicked" text="Clear">
+                                             <font>
+                                                <Font size="13.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="15.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <VBox fx:id="historyVBox" style="-fx-background-color: dbdbdb;">
+               <children>
+                  <Label text="History">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <ListView fx:id="historyListView" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </ListView>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>
