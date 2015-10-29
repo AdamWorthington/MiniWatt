@@ -121,12 +121,21 @@ public class AnswerFinder
 	
 	private List<ImmutablePair<String, Integer>> whyQuestion(Question question, String source)  
 	{
-		return searchOnKeyword("because", source, question);
+		List<ImmutablePair<String, Integer>> compiled = new ArrayList<ImmutablePair<String, Integer>>();
+		compiled.addAll(searchOnKeyword("because", source, question));
+		compiled.addAll(searchOnKeyword("due to", source, question));
+		compiled.addAll(searchOnKeyword("for", source, question));
+		
+		return compiled;
 	}
 	
 	private List<ImmutablePair<String, Integer>> whereQuestion(Question question, String source)  
 	{
-		return searchOnKeyword("in", source, question);
+		List<ImmutablePair<String, Integer>> compiled = new ArrayList<ImmutablePair<String, Integer>>();
+		compiled.addAll(searchOnKeyword("in", source, question));
+		compiled.addAll(searchOnKeyword("from", source, question));
+		
+		return compiled;
 	}
 	
 	private List<ImmutablePair<String, Integer>> whenQuestion(Question question, String source) 
@@ -149,9 +158,9 @@ public class AnswerFinder
 		return null;
 	}
 	
-	public List<List<ImmutablePair<String, Integer>>> findAnswer(Question question)
+	public List<ImmutablePair<String, Integer>> findAnswer(Question question)
 	{
-		List<List<ImmutablePair<String, Integer>>> answers = new ArrayList<List<ImmutablePair<String, Integer>>>();
+		List<ImmutablePair<String, Integer>> answers = new ArrayList<ImmutablePair<String, Integer>>();
 		
 		switch(question.getType())
 		{
@@ -160,7 +169,7 @@ public class AnswerFinder
 				{
 					List<ImmutablePair<String, Integer>> result = whatQuestion(question, source);
 					if(result != null)
-						answers.add(result);
+						answers.addAll(result);
 				}
 				break;
 			case WHY:
@@ -168,7 +177,7 @@ public class AnswerFinder
 				{
 					List<ImmutablePair<String, Integer>>result = whyQuestion(question, source);
 					if(result != null)
-						answers.add(result);
+						answers.addAll(result);
 				}
 				break;
 			case WHEN:
@@ -176,7 +185,7 @@ public class AnswerFinder
 				{
 					List<ImmutablePair<String, Integer>> result = whenQuestion(question, source);
 					if(result != null)
-						answers.add(result);
+						answers.addAll(result);
 				}
 				break;
 			case WHERE:
@@ -184,7 +193,7 @@ public class AnswerFinder
 				{
 					List<ImmutablePair<String, Integer>> result = whereQuestion(question, source);
 					if(result != null)
-						answers.add(result);
+						answers.addAll(result);
 				}
 				break;
 			case WHO:
@@ -192,7 +201,7 @@ public class AnswerFinder
 				{
 					List<ImmutablePair<String, Integer>> result = whoQuestion(question, source);
 					if(result != null)
-						answers.add(result);
+						answers.addAll(result);
 				}
 				break;
 			case HOW:
@@ -200,7 +209,7 @@ public class AnswerFinder
 				{
 					List<ImmutablePair<String, Integer>> result = howQuestion(question, source);
 					if(result != null)
-						answers.add(result);
+						answers.addAll(result);
 				}
 				break;
 			case WHICH:
@@ -208,7 +217,7 @@ public class AnswerFinder
 				{
 					List<ImmutablePair<String, Integer>> result = whichQuestion(question, source);
 					if(result != null)
-						answers.add(result);
+						answers.addAll(result);
 				}
 				break;
 			case INVALID:
@@ -217,9 +226,7 @@ public class AnswerFinder
 		
 		if(answers.size() == 0)
 		{
-			List<ImmutablePair<String, Integer>> result = new ArrayList<ImmutablePair<String, Integer>>();
-			result.add(new ImmutablePair<String, Integer>("No Answer", 100));
-			answers.add(result);
+			answers.add(new ImmutablePair<String, Integer>("No Answer", 100));
 		}
 
 		return answers;

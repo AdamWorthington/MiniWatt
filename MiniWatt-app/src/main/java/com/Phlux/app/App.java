@@ -76,7 +76,7 @@ public class App
 		QuestionParser.printer(q2);
 		QuestionParser.printer(q3);
 		
-		String source1 = "Scientific investigation has resulted in several culturally transformative shifts in" +
+		/*String source1 = "Scientific investigation has resulted in several culturally transformative shifts in" +
 		" our view of the planet. In the West, belief in a flat Earth was displaced by the idea of spherical Earth," + 
 		" credited to Pythagoras in the 6th century BC. Earth was further believed to be the center of the universe" +
 		" until the 16th century, when scientists first theorized that it was a moving object, comparable to the other"
@@ -141,6 +141,6 @@ public class App
 			{
 				System.out.printf("Answer: '%s', confidence '%d'\n", ll.left, ll.right);
 			}
-		}
+		}*/
     }
 }
