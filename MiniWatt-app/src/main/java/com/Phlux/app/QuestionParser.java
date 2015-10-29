@@ -31,6 +31,7 @@ public class QuestionParser
 	public static int subjectEnd;
 	public static void parseQuestion(Question question, String q_text)
 	{
+		//TODO Invalid handling
 		question_text = q_text;
 		QuestionType type = getType(q_text, question);
 		question.setType(type);
