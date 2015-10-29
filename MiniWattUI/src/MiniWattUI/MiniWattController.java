@@ -3,13 +3,17 @@ package MiniWattUI;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -21,6 +25,8 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
@@ -71,9 +77,12 @@ public class MiniWattController implements Initializable {
     @FXML ListView historyListView;
     @FXML VBox historyVBox;
     private boolean historyShowing;
+    ObservableList<String> historyList;
+    Map<String, String> historyMap;
 
     @FXML VBox resultsVBox;
     @FXML TextArea resultsTextArea;
+    private boolean resultsShowing;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -91,8 +100,20 @@ public class MiniWattController implements Initializable {
 
         mainHBox.getChildren().remove(historyVBox);
         historyShowing = false;
+        historyList = FXCollections.observableArrayList();
+        historyMap = new HashMap<String, String>();
+        historyListView.setItems(historyList);
+
+        historyListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue == null) return;
+                showResults(historyMap.get(newValue));
+            }
+        });
 
         mainHBox.getChildren().remove(resultsVBox);
+        resultsShowing = false;
 
         questionsToggle.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 
@@ -135,6 +156,7 @@ public class MiniWattController implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                String questionSetTitle;
                 Queue<String> questions;
                 String[] questionsDoc;
                 String[] referenceDoc;
@@ -148,6 +170,7 @@ public class MiniWattController implements Initializable {
                     }
                     statusDialog.setText("Parsing questions text...");
                     questionsDoc = questionsTextArea.getText().split("\n");
+                    questionSetTitle = questionsDoc[0];
 
                 } else {
                     if (questionsFile == null) {
@@ -158,6 +181,7 @@ public class MiniWattController implements Initializable {
                     }
                     statusDialog.setText("Parsing questions document...");
                     questionsDoc = parseFile(questionsFile);
+                    questionSetTitle = questionsFile.getName();
                 }
 
                 if (questionsDoc != null) {
@@ -209,8 +233,13 @@ public class MiniWattController implements Initializable {
                 } catch (Exception e) {
                     submitStatusLabel.setText("Error with network.");
                     e.printStackTrace();
+                    statusDialog.close();
+                    submitButton.setDisable(false);
+                    return;
                 }
                 statusDialog.close();
+                historyMap.put(questionSetTitle + "...", results);
+                historyList.add(questionSetTitle + "...");
                 showResults(results);
             }
         });
@@ -220,6 +249,8 @@ public class MiniWattController implements Initializable {
         submitButton.setDisable(false);
         mainHBox.getChildren().remove(resultsVBox);
         mainHBox.getChildren().add(0, mainScrollPane);
+        resultsShowing = false;
+        historyListView.getSelectionModel().select(null);
     }
 
     @FXML void onHistoryButtonClicked() {
@@ -269,8 +300,11 @@ public class MiniWattController implements Initializable {
 
     // Shows the results of the query in the results panel.
     private void showResults(String results) {
-        mainHBox.getChildren().remove(mainScrollPane);
-        mainHBox.getChildren().add(0, resultsVBox);
+        if (!resultsShowing) {
+            mainHBox.getChildren().remove(mainScrollPane);
+            mainHBox.getChildren().add(0, resultsVBox);
+        }
+        resultsShowing = true;
         resultsTextArea.setText(results);
     }
 

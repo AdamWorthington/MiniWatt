@@ -1,36 +1,20 @@
 package MiniWattUI;
 
-import com.lowagie.text.pdf.codec.Base64;
-import com.sun.deploy.util.SessionState;
-import org.apache.commons.codec.binary.Base64InputStream;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
-import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.nio.client.HttpAsyncClient;
 import org.apache.pdfbox.io.IOUtils;
-import org.json.*;
 import sun.misc.BASE64Encoder;
 
-import javax.xml.ws.spi.http.HttpContext;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 
 
