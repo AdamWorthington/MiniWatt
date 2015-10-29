@@ -134,28 +134,49 @@ public class AnswerFinder
 		List<ImmutablePair<String, Integer>> compiled = new ArrayList<ImmutablePair<String, Integer>>();
 		compiled.addAll(searchOnKeyword("in", source, question));
 		compiled.addAll(searchOnKeyword("from", source, question));
+		compiled.addAll(searchOnKeyword("at", source, question));
+		compiled.addAll(searchOnKeyword("near", source, question));
 		
 		return compiled;
 	}
 	
 	private List<ImmutablePair<String, Integer>> whenQuestion(Question question, String source) 
 	{
-		return searchOnKeyword("in", source, question);
+		List<ImmutablePair<String, Integer>> compiled = new ArrayList<ImmutablePair<String, Integer>>();
+		compiled.addAll(searchOnKeyword("in", source, question));
+		compiled.addAll(searchOnKeyword("around", source, question));
+		compiled.addAll(searchOnKeyword("on", source, question));
+		compiled.addAll(searchOnKeyword("during", source, question));
+		
+		return compiled;
 	}
 	
 	private List<ImmutablePair<String, Integer>> whoQuestion(Question question, String source)  
 	{
-		return searchOnKeyword("is", source, question);
+		List<ImmutablePair<String, Integer>> compiled = new ArrayList<ImmutablePair<String, Integer>>();
+		compiled.addAll(searchOnKeyword("is", source, question));
+		compiled.addAll(searchOnKeyword("was", source, question));
+		compiled.addAll(searchOnKeyword("by", source, question));
+		
+		return compiled;
 	}
 	
 	private List<ImmutablePair<String, Integer>> howQuestion(Question question, String source)  
 	{
-		return searchOnKeyword("by", source, question);
+		List<ImmutablePair<String, Integer>> compiled = new ArrayList<ImmutablePair<String, Integer>>();
+		compiled.addAll(searchOnKeyword("bye", source, question));
+		compiled.addAll(searchOnKeyword("through", source, question));
+		
+		return compiled;
 	}
 	
 	private List<ImmutablePair<String, Integer>> whichQuestion(Question question, String source) 
 	{
-		return null;
+		List<ImmutablePair<String, Integer>> compiled = new ArrayList<ImmutablePair<String, Integer>>();
+		compiled.addAll(searchOnKeyword("is", source, question));
+		compiled.addAll(searchOnKeyword("was", source, question));
+		
+		return compiled;
 	}
 	
 	public List<ImmutablePair<String, Integer>> findAnswer(Question question)
