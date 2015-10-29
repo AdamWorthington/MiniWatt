@@ -203,14 +203,15 @@ public class MiniWattController implements Initializable {
                 }
 
                 statusDialog.setText("Sending data to MiniWatt server...");
+                String results = "Results will be shown here when hooked up to the network engine properly.";
                 try {
-                    NetworkEngine.post_question(questions, referenceDoc);
+                    results = NetworkEngine.post_question(questions, referenceDoc);
                 } catch (Exception e) {
                     submitStatusLabel.setText("Error with network.");
                     e.printStackTrace();
                 }
                 statusDialog.close();
-                showResults("Results will be shown here when hooked up to the network engine properly.");
+                showResults(results);
             }
         });
     }

@@ -24,6 +24,7 @@ import org.apache.pdfbox.io.IOUtils;
 import org.json.*;
 import sun.misc.BASE64Encoder;
 
+import javax.xml.ws.spi.http.HttpContext;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Queue;
@@ -56,7 +57,7 @@ public class NetworkEngine
         return encoder.encode(bytes);
     }
 
-    public static void post_question(Queue<String> questions, String[] source) throws Exception
+    public static String post_question(Queue<String> questions, String[] source) throws Exception
     {
         List<NameValuePair> pairs = new ArrayList<NameValuePair>();
 
@@ -73,18 +74,16 @@ public class NetworkEngine
         pairs.add(new BasicNameValuePair("SourceSize", Integer.toString(0)));
 
         // command to Post task
-        CloseableHttpAsyncClient client = HttpAsyncClients.createDefault();
+        CloseableHttpClient client = HttpClients.createDefault();
         HttpResponse response = null;
         try
         {
-            client.start();
             HttpPost postRequest = new HttpPost(postUrl);
             UrlEncodedFormEntity requestEntity = new UrlEncodedFormEntity(pairs);
             postRequest.setEntity(requestEntity);
-            Future<HttpResponse> future = client.execute(postRequest, null);
-            response = future.get();
+            response = client.execute(postRequest, (org.apache.http.protocol.HttpContext)null);
 
-            System.out.println(response.getStatusLine());
+            //System.out.println(response.getStatusLine());
             HttpEntity entity = response.getEntity();
             BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
             StringBuilder out = new StringBuilder();
@@ -92,7 +91,8 @@ public class NetworkEngine
             while ((line = reader.readLine()) != null) {
                 out.append(line);
             }
-            System.out.println(out.toString());   //Prints the string content read from input stream
+            //System.out.println(out.toString());   //Prints the string content read from input stream
+            return out.toString();
 
         }
         finally
