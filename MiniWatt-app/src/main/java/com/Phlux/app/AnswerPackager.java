@@ -21,7 +21,7 @@ public class AnswerPackager
 		this.isSingleSource = isSingleSource;
 	}
 	
-	public void getAnswers()
+	public List<ImmutableTriple<Question, String, Integer>> getAnswers()
 	{
 		results = new ArrayList<ImmutableTriple<Question, String, Integer>>();
 		
@@ -43,11 +43,7 @@ public class AnswerPackager
 			for(ImmutablePair<String, Integer> pair : res)
 				results.add(new ImmutableTriple<Question, String, Integer>(questions.get(i), pair.getLeft(), pair.getRight()));
 		}
-	}
-	
-	public PDDocument packageDoc()
-	{
-		return null;
-		//return createAnswerDoc(results);
+		
+		return results;
 	}
 }
