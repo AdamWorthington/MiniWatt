@@ -3,25 +3,33 @@ package MiniWattUI;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 import net.sourceforge.tess4j.TesseractException;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by Chris Doak on 10/21/2015.
@@ -30,6 +38,8 @@ import java.util.ResourceBundle;
 public class MiniWattController implements Initializable {
 
     private static final String[] VALID_FILE_EXTENSIONS = {"pdf","bmp","jpg","jpeg","png"};
+
+    private Stage primaryStage;
 
     private File questionsFile = null;
     private File referenceFile = null;
@@ -67,9 +77,12 @@ public class MiniWattController implements Initializable {
     @FXML ListView historyListView;
     @FXML VBox historyVBox;
     private boolean historyShowing;
+    ObservableList<String> historyList;
+    Map<String, String> historyMap;
 
     @FXML VBox resultsVBox;
     @FXML TextArea resultsTextArea;
+    private boolean resultsShowing;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -87,8 +100,20 @@ public class MiniWattController implements Initializable {
 
         mainHBox.getChildren().remove(historyVBox);
         historyShowing = false;
+        historyList = FXCollections.observableArrayList();
+        historyMap = new HashMap<String, String>();
+        historyListView.setItems(historyList);
+
+        historyListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue == null) return;
+                showResults(historyMap.get(newValue));
+            }
+        });
 
         mainHBox.getChildren().remove(resultsVBox);
+        resultsShowing = false;
 
         questionsToggle.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 
@@ -122,73 +147,110 @@ public class MiniWattController implements Initializable {
     }
 
     @FXML void onSubmitButtonClicked() {
+
         resetStatusLabels();
         submitButton.setDisable(true);
 
-        Queue<String> questions;
-        String[] questionsDoc;
-        String[] referenceDoc;
+        final SubmitStatusDialog statusDialog = new SubmitStatusDialog(primaryStage);
 
-        if (questionsToggle.getSelectedToggle().equals(questionsAsTextButton)) {
-            if (questionsTextArea.getText().isEmpty()) {
-                questionsStatusLabel.setText("Please provide questions as text!");
-                submitButton.setDisable(false);
-                return;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                String questionSetTitle;
+                Queue<String> questions;
+                String[] questionsDoc;
+                String[] referenceDoc;
+
+                if (questionsToggle.getSelectedToggle().equals(questionsAsTextButton)) {
+                    if (questionsTextArea.getText().isEmpty()) {
+                        questionsStatusLabel.setText("Please provide questions as text!");
+                        submitButton.setDisable(false);
+                        statusDialog.close();
+                        return;
+                    }
+                    statusDialog.setText("Parsing questions text...");
+                    questionsDoc = questionsTextArea.getText().split("\n");
+                    questionSetTitle = questionsDoc[0];
+
+                } else {
+                    if (questionsFile == null) {
+                        questionsStatusLabel.setText("Please provide a questions file!");
+                        submitButton.setDisable(false);
+                        statusDialog.close();
+                        return;
+                    }
+                    statusDialog.setText("Parsing questions document...");
+                    questionsDoc = parseFile(questionsFile);
+                    questionSetTitle = questionsFile.getName();
+                }
+
+                if (questionsDoc != null) {
+                    statusDialog.setText("Extracting questions...");
+                    questions = TextInterpret.extractQuestions(questionsDoc);
+                } else {
+                    questionsStatusLabel.setText("Error with questioins.");
+                    submitButton.setDisable(false);
+                    statusDialog.close();
+                    return;
+                }
+
+                if (referenceToggle.getSelectedToggle().equals(referenceAsTextButton)) {
+                    if (referenceTextArea.getText().isEmpty()) {
+                        referenceStatusLabel.setText("Please provide reference as text!");
+                        submitButton.setDisable(false);
+                        statusDialog.close();
+                        return;
+                    }
+                    statusDialog.setText("Parsing reference text...");
+                    referenceDoc = referenceTextArea.getText().split("\n");
+                } else if (referenceToggle.getSelectedToggle().equals(referenceFromFileButton)) {
+                    if (referenceFile == null) {
+                        referenceStatusLabel.setText("Please provide a reference file!");
+                        submitButton.setDisable(false);
+                        statusDialog.close();
+                        return;
+                    }
+                    statusDialog.setText("Parsing reference document...");
+                    referenceDoc = parseFile(referenceFile);
+                    if (referenceDoc == null) {
+                        referenceStatusLabel.setText("Error with reference.");
+                    }
+                } else {
+                    referenceDoc = null;
+                }
+
+                if (questions.isEmpty()) {
+                    questionsStatusLabel.setText("No questions found.");
+                    submitButton.setDisable(false);
+                    statusDialog.close();
+                    return;
+                }
+
+                statusDialog.setText("Sending data to MiniWatt server...");
+                String results = "Results will be shown here when hooked up to the network engine properly.";
+                try {
+                    results = NetworkEngine.post_question(questions, referenceDoc);
+                } catch (Exception e) {
+                    submitStatusLabel.setText("Error with network.");
+                    e.printStackTrace();
+                    statusDialog.close();
+                    submitButton.setDisable(false);
+                    return;
+                }
+                statusDialog.close();
+                historyMap.put(questionSetTitle + "...", results);
+                historyList.add(questionSetTitle + "...");
+                showResults(results);
             }
-            questionsDoc = questionsTextArea.getText().split("\n");
-
-        } else {
-            if (questionsFile == null) {
-                questionsStatusLabel.setText("Please provide a questions file!");
-                submitButton.setDisable(false);
-                return;
-            }
-            questionsDoc = parseFile(questionsFile);
-        }
-
-        if (questionsDoc != null) {
-            questions = TextInterpret.extractQuestions(questionsDoc);
-        } else {
-            questionsStatusLabel.setText("Error with questioins.");
-            submitButton.setDisable(false);
-            return;
-        }
-
-        if (referenceToggle.getSelectedToggle().equals(referenceAsTextButton)) {
-            if (referenceTextArea.getText().isEmpty()) {
-                referenceStatusLabel.setText("Please provide reference as text!");
-                submitButton.setDisable(false);
-                return;
-            }
-            referenceDoc = referenceTextArea.getText().split("\n");
-        } else if (referenceToggle.getSelectedToggle().equals(referenceFromFileButton)) {
-            if (referenceFile == null) {
-                referenceStatusLabel.setText("Please provide a reference file!");
-                submitButton.setDisable(false);
-                return;
-            }
-            referenceDoc = parseFile(referenceFile);
-            if (referenceDoc == null) {
-                referenceStatusLabel.setText("Error with reference.");
-            }
-        } else {
-            referenceDoc = null;
-        }
-
-        try {
-            NetworkEngine.post_question(questions, referenceDoc);
-        } catch (Exception e) {
-            submitStatusLabel.setText("Error with network.");
-            e.printStackTrace();
-        }
-        showResults("Results will be shown here when hooked up to the network engine properly.");
-
+        });
     }
 
     @FXML void onResultsCloseClicked() {
         submitButton.setDisable(false);
         mainHBox.getChildren().remove(resultsVBox);
         mainHBox.getChildren().add(0, mainScrollPane);
+        resultsShowing = false;
+        historyListView.getSelectionModel().select(null);
     }
 
     @FXML void onHistoryButtonClicked() {
@@ -232,10 +294,17 @@ public class MiniWattController implements Initializable {
         referenceAsNullButton.fire();
     }
 
+    public void setStage(Stage stage) {
+        primaryStage = stage;
+    }
+
     // Shows the results of the query in the results panel.
     private void showResults(String results) {
-        mainHBox.getChildren().remove(mainScrollPane);
-        mainHBox.getChildren().add(0, resultsVBox);
+        if (!resultsShowing) {
+            mainHBox.getChildren().remove(mainScrollPane);
+            mainHBox.getChildren().add(0, resultsVBox);
+        }
+        resultsShowing = true;
         resultsTextArea.setText(results);
     }
 

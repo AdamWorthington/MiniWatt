@@ -11,7 +11,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("miniwatt_main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("miniwatt_main.fxml"));
+        Parent root = loader.load();
+        MiniWattController controller = loader.getController();
+        controller.setStage(primaryStage);
         primaryStage.getIcons().add(
                 new Image(getClass().getClassLoader().getResourceAsStream("MiniWattUI/res/ic_miniwatt_56px.png")));
         primaryStage.setTitle("Mini Watt");
