@@ -31,10 +31,24 @@ public class QuestionParser
 	public static int subjectEnd;
 	public static void parseQuestion(Question question, String q_text)
 	{
-		//TODO Invalid handling
+		LinkedList<String> temp = new LinkedList<String>();
+		question.setPredicatePrepositions(temp);
+		question.setSubjectPrepositions(temp);
 		question_text = q_text;
-		QuestionType type = getType(q_text, question);
-		question.setType(type);
+		QuestionType type = QuestionType.INVALID;
+		if(q_text == null || q_text.length() < 3)
+		{
+			question.setType(type);
+		}
+		else
+		{
+			type = getType(q_text, question);
+			question.setType(type);
+		}
+		if(question.getType() == QuestionType.INVALID)
+		{
+			return;
+		}
 		findSubject(question);
 		findKeyWords(question);
 		
