@@ -9,36 +9,20 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class AnswerPackager 
 {
-	private List<Question> questions;
-	private List<List<String>> sources;
-	private List<MiniWattResult> results;
-	
-	private boolean isSingleSource = false;
-	
-	public AnswerPackager(List<Question> questions, List<List<String>> sources, boolean isSingleSource)
+	private ArrayList<Question> questions;
+	private ArrayList<ArrayList<String>> sources;
+	private ArrayList<MiniWattResult> results;
+		
+	public AnswerPackager(ArrayList<Question> questions, ArrayList<ArrayList<String>> sources)
 	{
 		this.questions = questions;
-		this.isSingleSource = isSingleSource;
+		this.sources = sources;
 	}
 	
-	public List<MiniWattResult> getAnswers()
+	public ArrayList<MiniWattResult> getAnswers()
 	{
 		results = new ArrayList<MiniWattResult>();
-		
-		if(isSingleSource)
-		{
-			AnswerFinder finder = new AnswerFinder(sources.get(0));
-			for(Question q : questions)
-			{
-				List<ImmutablePair<String, Integer>> res = finder.findAnswer(q);
-				Collections.sort(res, new ResultComparator());
-				//We only want to keep the top 3 results.
-				while(res.size() > 3)
-					res.remove(res.size() - 1);
-				MiniWattResult r = new MiniWattResult(q, res);
-			}
-		}
-		
+
 		for(int i = 0; i < questions.size(); i++)
 		{
 			AnswerFinder finder = new AnswerFinder(sources.get(i));
