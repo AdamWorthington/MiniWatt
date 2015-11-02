@@ -67,7 +67,39 @@ public class NetworkEngine
             sources.add(gs.getInfo(links, input));
             if(source != null && source.isEmpty() == false)
                 sources.get(sources.size() - 1).add(source);
+
+
         }
+
+        if(sources.isEmpty())
+        {
+            //public getInfo(String URL, String SUBJECT, String QUESTION)
+            link = "http://en.wikipedia.org/wiki/" + URL;
+            try {
+                getText(link, SUBJECT, QUESTION);
+            } catch (IOException e) {
+                System.out.println("ERROR: Failed at Constructor.");
+                e.printStackTrace();
+            }
+
+           // public void getText(String url, String subject, String question) throws IOException {
+            String info = "";
+            Document doc = Jsoup.connect(url).get();
+            Elements paragraphs = doc.select("p");
+            for (Element p : paragraphs) {
+                info += "\n" + p.text();
+
+            if (subject == "born"){
+                bornDate(info);
+            }
+            else if(subject == "happened" || subject == "happen"){
+                eventDate(info);
+            }
+            else{
+                System.out.println("Failed on getText");
+            }
+        }
+
         System.err.println("2: " + sources.toString());
         AnswerPackager AP = new AnswerPackager(parameterQuestions, sources);
         ArrayList<MiniWattResult> answers = AP.getAnswers();
