@@ -187,14 +187,13 @@ public class QuestionParser
 			if(current_index < 0)
 			{
 				word = text.substring(previous_index, text.length());
-				word = word.replace('?', ' ');
 			}
 			else
 			{
 				word = text.substring(previous_index, current_index);
-				word = word.replace('?', ' ');
 			}
 			lastUpper++;
+			
 			if(!foundIn(word, uselessWords))
 			{
 				if(Character.isUpperCase(word.charAt(0)))
@@ -207,7 +206,7 @@ public class QuestionParser
 				}
 				else
 				{
-					if(upper && lastUpper < 3)
+					if(upper && lastUpper < 4)
 					{
 						//only concat to subject if upper case is within the next two words
 						//hold onto current values 
@@ -215,20 +214,22 @@ public class QuestionParser
 						int y = previous_index;
 						String temp = word;
 						previous_index = current_index + 1;
-						current_index = text.indexOf(' ', previous_index);
+						if(current_index > 0)
+						{
+							current_index = text.indexOf(' ', previous_index);
+						}
 						if(current_index < 0)
 						{
 							current_index = x;
 							previous_index = y;
 							word = temp;
 							q.setSubject(subject);
-							subjectEnd = current_index;
-							System.out.println("Subject: " + subject + " Pos: " + subjectEnd);
+							subjectEnd = previous_index;
+							System.out.println(previous_index);
 							return;
 						}
 						else
 						{
-							System.out.println("here");
 							word = text.substring(previous_index, current_index);
 							word = word.replace('?', ' ');
 						}
@@ -328,6 +329,7 @@ public class QuestionParser
 		if(current_index < 0)
 		{
 			word = text.substring(previous_index, text.length());
+			previous_index = text.length();
 			word = word.replace('?', ' ');
 		}
 		else
@@ -339,6 +341,11 @@ public class QuestionParser
 		{
 			predicate = predicate.concat(word);
 			predicate = predicate.concat(" ");
+		}
+		if(previous_index == text.length())
+		{
+			q.setPredicate(predicate);
+			return;
 		}
 		while(current_index > 0)
 		{
@@ -375,5 +382,6 @@ public class QuestionParser
 		System.out.println("Queestion preps for predicate =	" + q.getPredicatePrepositions());
 		System.out.println("========================================================================");
 	}
+	
 	
 }
