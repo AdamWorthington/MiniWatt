@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Queue;
 import java.util.List;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 
 
@@ -64,41 +68,38 @@ public class NetworkEngine
             System.err.println("c: " + Arrays.toString(input));
             ArrayList<String> links = gs.getLinks(input);
             System.err.println("d: " + links);
-            sources.add(gs.getInfo(links, input));
+            ArrayList<String> gsInfo = gs.getInfo(links, input);
+            if(gsInfo != null)
+                sources.add(gsInfo);
             if(source != null && source.isEmpty() == false)
                 sources.get(sources.size() - 1).add(source);
 
+            if(sources.isEmpty()) {
+                //public getInfo(String URL, String SUBJECT, String QUESTION)
+                String info = "";
+                try {
+                    String link = "http://en.wikipedia.org/wiki/" + subject.replace(' ', '_');
+                    // public void getText(String url, String subject, String question) throws IOException {
 
-        }
+                    Document doc = Jsoup.connect(link).get();
+                    Elements paragraphs = doc.select("p");
+                    for (Element p : paragraphs) {
+                        info += "\n" + p.text();
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.err.println(e.toString());
+                    continue;
+                }
 
-        if(sources.isEmpty())
-        {
-            //public getInfo(String URL, String SUBJECT, String QUESTION)
-            link = "http://en.wikipedia.org/wiki/" + URL;
-            try {
-                getText(link, SUBJECT, QUESTION);
-            } catch (IOException e) {
-                System.out.println("ERROR: Failed at Constructor.");
-                e.printStackTrace();
-            }
-
-           // public void getText(String url, String subject, String question) throws IOException {
-            String info = "";
-            Document doc = Jsoup.connect(url).get();
-            Elements paragraphs = doc.select("p");
-            for (Element p : paragraphs) {
-                info += "\n" + p.text();
-
-            if (subject == "born"){
-                bornDate(info);
-            }
-            else if(subject == "happened" || subject == "happen"){
-                eventDate(info);
-            }
-            else{
-                System.out.println("Failed on getText");
+                ArrayList<String> tmp = new ArrayList<String>();
+                tmp.add(info);
+                sources.add(tmp);
             }
         }
+
+
 
         System.err.println("2: " + sources.toString());
         AnswerPackager AP = new AnswerPackager(parameterQuestions, sources);

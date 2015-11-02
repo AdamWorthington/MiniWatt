@@ -10,6 +10,8 @@
       <element id="archive" name="JavaFXApp.jar">
         <element id="module-output" name="MiniWattUI" />
       </element>
+      <element id="library" level="project" name="fontbox-1.8.10" />
+      <element id="library" level="project" name="mini_watt_libs" />
     </root>
   </artifact>
 </component>

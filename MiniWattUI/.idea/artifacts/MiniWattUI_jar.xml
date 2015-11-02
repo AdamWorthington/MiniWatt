@@ -1,0 +1,67 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MiniWattUI:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MiniWattUI_jar</output-path>
+    <root id="archive" name="MiniWattUI.jar">
+      <element id="module-output" name="MiniWattUI" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Tess4J/lib/commons-beanutils-1.9.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Tess4J/lib/commons-io-2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Tess4J/lib/commons-logging-1.1.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Tess4J/lib/ghost4j-0.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Tess4J/lib/itext-2.1.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Tess4J/lib/jai_imageio.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Tess4J/lib/jna.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Tess4J/lib/junit-4.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Tess4J/lib/log4j-1.2.17.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Tess4J/lib/xmlgraphics-commons-1.5.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/Tess4J/dist/tess4j.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/org.json-20150729.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-client-4.5.1/lib/commons-codec-1.9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-client-4.5.1/lib/commons-logging-1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-client-4.5.1/lib/fluent-hc-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-client-4.5.1/lib/httpclient-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-client-4.5.1/lib/httpclient-cache-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-client-4.5.1/lib/httpclient-win-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-client-4.5.1/lib/httpcore-4.4.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-client-4.5.1/lib/httpmime-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-client-4.5.1/lib/jna-4.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-client-4.5.1/lib/jna-platform-4.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-asyncclient-4.1/lib/commons-codec-1.9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-asyncclient-4.1/lib/commons-logging-1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-asyncclient-4.1/lib/httpasyncclient-4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-asyncclient-4.1/lib/httpasyncclient-cache-4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-asyncclient-4.1/lib/httpclient-4.4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-asyncclient-4.1/lib/httpclient-cache-4.4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-asyncclient-4.1/lib/httpcore-4.4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/httpcomponents-asyncclient-4.1/lib/httpcore-nio-4.4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/pdfbox-app-1.8.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-io-2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-lang3-3.3.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jsoup-1.8.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../fontbox-1.8.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../jempbox-1.8.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../pdfbox-1.8.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../preflight-1.8.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../xmpbox-1.8.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../Tess4J-2.0-src/tess4j-2.0.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../org.json-20150729.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/commons-codec-1.9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/commons-logging-1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/fluent-hc-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpclient-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpclient-cache-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpclient-win-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpcore-4.4.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpmime-4.5.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/jna-4.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/jna-platform-4.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/commons-codec-1.9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/commons-logging-1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpasyncclient-4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpasyncclient-cache-4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpclient-4.4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpclient-cache-4.4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpcore-4.4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpcore-nio-4.4.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

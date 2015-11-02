@@ -77,6 +77,7 @@ public class AnswerFinder
 			certainty += 25;
 
 			//Try to find the subject in the sentence.
+			subject = subject.trim();
 			int subjectIndex = sentence.indexOf(subject);
 			if(subjectIndex == -1)
 				continue;
@@ -100,13 +101,13 @@ public class AnswerFinder
 			float percentageHit = ((float)hits / (float)total);
 			int frac = (int) (percentageHit*25);
 			certainty += frac;
-			
+
 			if(hits == 0)
 				predWordsPresent = false;
 			
 			//if it contained at least a keyword, we add the result.
-			if(predWordsPresent)
-				result.add(new ImmutablePair<String, Integer>(sentence, certainty));
+			//if(predWordsPresent)
+			result.add(new ImmutablePair<String, Integer>(sentence, certainty));
 		}
 		
 		return result;

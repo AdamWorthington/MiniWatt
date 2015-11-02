@@ -102,6 +102,10 @@ public class GoogleScraper extends Scraper{
 			}
 		}
 		System.out.println(info);
+
+		if(info.isEmpty())
+			return null;
+
 		return info;
 	}
 }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="mini_watt_libs">
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/Tess4J/lib/commons-beanutils-1.9.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/Tess4J/lib/commons-io-2.4.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/Tess4J/lib/commons-logging-1.1.3.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/Tess4J/lib/ghost4j-0.5.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/Tess4J/lib/itext-2.1.7.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/Tess4J/lib/jai_imageio.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/Tess4J/lib/jna.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/Tess4J/lib/junit-4.10.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/Tess4J/lib/log4j-1.2.17.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/Tess4J/lib/xmlgraphics-commons-1.5.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/Tess4J/dist/tess4j.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/org.json-20150729.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-client-4.5.1/lib/commons-codec-1.9.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-client-4.5.1/lib/commons-logging-1.2.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-client-4.5.1/lib/fluent-hc-4.5.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-client-4.5.1/lib/httpclient-4.5.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-client-4.5.1/lib/httpclient-cache-4.5.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-client-4.5.1/lib/httpclient-win-4.5.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-client-4.5.1/lib/httpcore-4.4.3.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-client-4.5.1/lib/httpmime-4.5.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-client-4.5.1/lib/jna-4.1.0.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-client-4.5.1/lib/jna-platform-4.1.0.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-asyncclient-4.1/lib/commons-codec-1.9.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-asyncclient-4.1/lib/commons-logging-1.2.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-asyncclient-4.1/lib/httpasyncclient-4.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-asyncclient-4.1/lib/httpasyncclient-cache-4.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-asyncclient-4.1/lib/httpclient-4.4.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-asyncclient-4.1/lib/httpclient-cache-4.4.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-asyncclient-4.1/lib/httpcore-4.4.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/httpcomponents-asyncclient-4.1/lib/httpcore-nio-4.4.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/pdfbox-app-1.8.10.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/commons-io-2.4.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/commons-lang3-3.3.2.jar" />
+    <archive path="C:/Users/cdwil/Documents/GitHub/MiniWatt/MiniWattUI/lib/jsoup-1.8.3.jar" />
+  </library>
+  <library name="fontbox-1.8.10">
+    <archive path="C:/Users/cdwil/Documents/fontbox-1.8.10.jar" />
+    <archive path="C:/Users/cdwil/Documents/jempbox-1.8.10.jar" />
+    <archive path="C:/Users/cdwil/Documents/pdfbox-1.8.10.jar" />
+    <archive path="C:/Users/cdwil/Documents/preflight-1.8.10.jar" />
+    <archive path="C:/Users/cdwil/Documents/xmpbox-1.8.10.jar" />
+    <archive path="C:/Users/cdwil/Documents/Tess4J-2.0-src/tess4j-2.0.0.jar" />
+    <archive path="C:/Users/cdwil/Documents/org.json-20150729.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/commons-codec-1.9.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/commons-logging-1.2.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/fluent-hc-4.5.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpclient-4.5.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpclient-cache-4.5.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpclient-win-4.5.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpcore-4.4.3.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/httpmime-4.5.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/jna-4.1.0.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-client-4.5.1-bin/httpcomponents-client-4.5.1/lib/jna-platform-4.1.0.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/commons-codec-1.9.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/commons-logging-1.2.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpasyncclient-4.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpasyncclient-cache-4.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpclient-4.4.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpclient-cache-4.4.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpcore-4.4.1.jar" />
+    <archive path="C:/Users/cdwil/Documents/httpcomponents-asyncclient-4.1-bin/httpcomponents-asyncclient-4.1/lib/httpcore-nio-4.4.1.jar" />
+  </library>
+</eclipse-userlibraries>
+

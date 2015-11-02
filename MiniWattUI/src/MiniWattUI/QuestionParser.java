@@ -16,7 +16,7 @@ public class QuestionParser
 	/*
 	 * words to skip
 	 */
-	public static String[] uselessWords = {"are", "the", "is", "do", "does", "was", "did", "a"};
+	public static String[] uselessWords = {"are", "the", "is", "do", "does", "was", "did", "a", "an"};
 	/*
 	 * prepositions
 	 */
