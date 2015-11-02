@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -47,7 +48,7 @@ public final class DocumentUtils
 		return encoder.encode(bytes);
 	}
 	
-	public static PDDocument createAnswerDoc(String[] questions, String[] answers) throws IOException, COSVisitorException
+	public static PDDocument createAnswerDoc(String[] questions, List<List<String>> answers) throws IOException, COSVisitorException
 	{
 		PDDocument pdfAnswers = new PDDocument();
 		PDFont questionFont = PDType1Font.TIMES_ITALIC;
@@ -110,34 +111,37 @@ public final class DocumentUtils
 			curWidth += fontSize * answerFont.getStringWidth(" ") / 1000;
 			contentStream.setFont(answerFont, fontSize);
 			lastSpace = -1;
-			while(answers[i].length() > 0)
+			for(String answer : answers.get(i))
 			{
-				int space = answers[i].indexOf(' ', lastSpace + 1);
-				if(space < 0)
-					space = answers[i].length();
-				
-				String subString = answers[i].substring(0, space);
-				float textWidth = fontSize * answerFont.getStringWidth(subString) / 1000;
-				if(textWidth + curWidth > width)
+				while(answer.length() > 0)
 				{
-					if(lastSpace < 0)
+					int space = answer.indexOf(' ', lastSpace + 1);
+					if(space < 0)
+						space = answer.length();
+
+					String subString = answer.substring(0, space);
+					float textWidth = fontSize * answerFont.getStringWidth(subString) / 1000;
+					if(textWidth + curWidth > width)
+					{
+						if(lastSpace < 0)
+							lastSpace = space;
+						subString = answer.substring(0, lastSpace);
+						contentStream.drawString(subString);
+						answer = answer.substring(lastSpace).trim();
+						lastSpace = -1;
+
+						contentStream.moveTextPositionByAmount(0, -leading);
+						curWidth = 0;
+					}
+					else if(space == answer.length())
+					{
+						contentStream.drawString(answer);
+						answer = "";
+						curWidth += textWidth;
+					}
+					else
 						lastSpace = space;
-					subString = answers[i].substring(0, lastSpace);
-					contentStream.drawString(subString);
-					answers[i] = answers[i].substring(lastSpace).trim();
-					lastSpace = -1;
-					
-					contentStream.moveTextPositionByAmount(0, -leading);
-					curWidth = 0;
 				}
-				else if(space == answers[i].length())
-				{
-					contentStream.drawString(answers[i]);
-					answers[i] = "";
-					curWidth += textWidth;
-				}
-				else
-					lastSpace = space;
 			}
 			
 			curWidth = 0;

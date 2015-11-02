@@ -25,10 +25,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -157,9 +154,9 @@ public class MiniWattController implements Initializable {
             @Override
             public void run() {
                 String questionSetTitle;
-                Queue<String> questions;
-                String[] questionsDoc;
-                String[] referenceDoc;
+                ArrayList<String> questions;
+                String questionsDoc;
+                String referenceDoc;
 
                 if (questionsToggle.getSelectedToggle().equals(questionsAsTextButton)) {
                     if (questionsTextArea.getText().isEmpty()) {
@@ -169,8 +166,8 @@ public class MiniWattController implements Initializable {
                         return;
                     }
                     statusDialog.setText("Parsing questions text...");
-                    questionsDoc = questionsTextArea.getText().split("\n");
-                    questionSetTitle = questionsDoc[0];
+                    questionsDoc = questionsTextArea.getText();
+                    questionSetTitle = questionsDoc.split("\n")[0];
 
                 } else {
                     if (questionsFile == null) {
@@ -202,7 +199,7 @@ public class MiniWattController implements Initializable {
                         return;
                     }
                     statusDialog.setText("Parsing reference text...");
-                    referenceDoc = referenceTextArea.getText().split("\n");
+                    referenceDoc = referenceTextArea.getText();
                 } else if (referenceToggle.getSelectedToggle().equals(referenceFromFileButton)) {
                     if (referenceFile == null) {
                         referenceStatusLabel.setText("Please provide a reference file!");
@@ -341,7 +338,7 @@ public class MiniWattController implements Initializable {
         referenceStatusLabel.setText("");
     }
 
-    private String[] parseFile(File document) {
+    private String parseFile(File document) {
         if (FilenameUtils.isExtension(document.getName(), VALID_FILE_EXTENSIONS)) {
             try {
                 if (FilenameUtils.isExtension(document.getName(), "pdf")) {
