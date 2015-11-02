@@ -3,6 +3,7 @@ package MiniWattUI;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.regex.Matcher;
@@ -31,11 +32,12 @@ public final class TextInterpret
 	 * Given a list of strings, the function extracts all questions from within the strings
 	 * (even questions that are within a sentence--providing it matches the regex pattern)
 	 */
-	public static Queue<String> extractQuestions(String[] text)
+	public static ArrayList<String> extractQuestions(String text)
 	{
-		Queue<String> questions = new LinkedList<String>();
+		String[] textBrokenOut = text.split("\n");
+		ArrayList<String> questions = new ArrayList<String>();
 		Pattern questionPattern = Pattern.compile("[A-Z][A-Za-z0-9\t ,:-;\"]*\\?");
-		for(String s : text)
+		for(String s : textBrokenOut)
 		{
 			Matcher matcher = questionPattern.matcher(s);
 			while(matcher.find())
@@ -49,21 +51,20 @@ public final class TextInterpret
 	 * Given a File that points to a valid image (.png, .bmp, .jpg), will extract
 	 * all text from the image
 	 */
-	public static String[] parseImage(File file) throws IOException, TesseractException
+	public static String parseImage(File file) throws IOException, TesseractException
 	{
 		Tesseract t = new Tesseract();
 		t.setDatapath(tessPath);
 		String rawText = t.doOCR(file);
-		String[] text = rawText.split("\n");
 		
-		return text;
+		return rawText;
 	}
 	
 	/*
 	 * Given a File that points to a PDF with searchable text, will extract
 	 * all text from the PDF file.
 	 */
-	public static String[] parseDocument(File file) throws IOException
+	public static String parseDocument(File file) throws IOException
 	{
 		String rawText;
 		
@@ -76,9 +77,8 @@ public final class TextInterpret
 		
 		rawText = stripper.getText(doc);
 		doc.close();
-		String[] text = rawText.split("\n");
 		
-		return text;
+		return rawText;
 	}
 	
 	/*

@@ -5,15 +5,21 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.apache.pdfbox.io.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import sun.misc.BASE64Encoder;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Queue;
 import java.util.List;
 
@@ -42,21 +48,22 @@ public class NetworkEngine
         return encoder.encode(bytes);
     }
 
-    public static String post_question(Queue<String> questions, String[] source) throws Exception
+    public static String post_question(ArrayList<String> questions, String source) throws Exception
     {
-        List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+        JSONObject jobj = new JSONObject();
 
-        for(int i = 0; i < questions.size(); i++)
-            pairs.add(new BasicNameValuePair("Question" + Integer.toString(i), questions.remove()));
-        pairs.add(new BasicNameValuePair("NumQuestions", Integer.toString(questions.size())));
-
-        if (source != null) {
-            for (int i = 0; i < source.length; i++)
-                pairs.add(new BasicNameValuePair("Source" + Integer.toString(i), source[i]));
-            pairs.add(new BasicNameValuePair("SourceSize", Integer.toString(source.length)));
+        if(source != null)
+        {
+            jobj.put("hasSourceDoc", 1);
+            jobj.put("sourceDoc", "");
+        }
+        else
+        {
+            jobj.put("hasSourceDoc", 0);
+            jobj.put("sourceDoc", source);
         }
 
-        pairs.add(new BasicNameValuePair("SourceSize", Integer.toString(0)));
+        jobj.put("questions", questions);
 
         // command to Post task
         CloseableHttpClient client = HttpClients.createDefault();
@@ -64,8 +71,9 @@ public class NetworkEngine
         try
         {
             HttpPost postRequest = new HttpPost(postUrl);
-            UrlEncodedFormEntity requestEntity = new UrlEncodedFormEntity(pairs);
-            postRequest.setEntity(requestEntity);
+            StringEntity se = new StringEntity(jobj.toString());
+            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+            postRequest.setEntity(se);
             response = client.execute(postRequest, (org.apache.http.protocol.HttpContext)null);
 
             //System.out.println(response.getStatusLine());
