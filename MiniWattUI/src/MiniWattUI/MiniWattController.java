@@ -21,6 +21,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import net.sourceforge.tess4j.TesseractException;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.io.File;
 import java.io.IOException;
@@ -105,7 +106,7 @@ public class MiniWattController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (newValue == null) return;
-                showResults(historyMap.get(newValue));
+                //showResults(historyMap.get(newValue));
             }
         });
 
@@ -224,9 +225,9 @@ public class MiniWattController implements Initializable {
                 }
 
                 statusDialog.setText("Sending data to MiniWatt server...");
-                String results = "Results will be shown here when hooked up to the network engine properly.";
+                ArrayList<MiniWattResult> res;
                 try {
-                    results = NetworkEngine.post_question(questions, referenceDoc);
+                    res = NetworkEngine.post_question(questions, referenceDoc);
                 } catch (Exception e) {
                     submitStatusLabel.setText("Error with network.");
                     e.printStackTrace();
@@ -235,9 +236,9 @@ public class MiniWattController implements Initializable {
                     return;
                 }
                 statusDialog.close();
-                historyMap.put(questionSetTitle + "...", results);
-                historyList.add(questionSetTitle + "...");
-                showResults(results);
+                //historyMap.put(questionSetTitle + "...", results);
+                //historyList.add(questionSetTitle + "...");
+                showResults(res);
             }
         });
     }
@@ -296,13 +297,33 @@ public class MiniWattController implements Initializable {
     }
 
     // Shows the results of the query in the results panel.
-    private void showResults(String results) {
+    private void showResults(ArrayList<MiniWattResult> results) {
         if (!resultsShowing) {
             mainHBox.getChildren().remove(mainScrollPane);
             mainHBox.getChildren().add(0, resultsVBox);
         }
+
+        StringBuilder builder = new StringBuilder();
+
+        for(MiniWattResult mwr : results)
+        {
+            builder.append("Question: ");
+            builder.append(mwr.getQuestion().getQuestionText());
+            builder.append("\n");
+            List<ImmutablePair<String, Integer>> data = mwr.getResults();
+            for(ImmutablePair<String, Integer> ip : data)
+            {
+                builder.append("Answer: ");
+                builder.append(ip.getLeft());
+                builder.append("\n");
+                builder.append("Confidence: ");
+                builder.append(ip.getRight());
+                builder.append("\n");
+            }
+        }
+
         resultsShowing = true;
-        resultsTextArea.setText(results);
+        resultsTextArea.setText(builder.toString());
     }
 
     private File browseFile(ActionEvent event) {

@@ -48,8 +48,30 @@ public class NetworkEngine
         return encoder.encode(bytes);
     }
 
-    public static String post_question(ArrayList<String> questions, String source) throws Exception
+    public static ArrayList<MiniWattResult> post_question(ArrayList<String> questions, String source) throws Exception
     {
+        ArrayList<Question> parameterQuestions = new ArrayList<Question>();
+        ArrayList<ArrayList<String>> sources = new ArrayList<ArrayList<String>>();
+        int pageNum = 2;
+        GoogleScraper gs = new GoogleScraper(pageNum);
+
+        for (String question : questions) {
+            Question temp = new Question(question);
+            parameterQuestions.add(temp);
+            String subject = temp.getSubject();
+            System.err.println("b: " + subject);
+            String[] input = subject.split(" ");
+            System.err.println("c: " + Arrays.toString(input));
+            ArrayList<String> links = gs.getLinks(input);
+            System.err.println("d: " + links);
+            sources.add(gs.getInfo(links, input));
+        }
+        System.err.println("2: " + sources.toString());
+        AnswerPackager AP = new AnswerPackager(parameterQuestions, sources);
+        ArrayList<MiniWattResult> answers = AP.getAnswers();
+
+        return answers;
+
         /*JSONObject jobj = new JSONObject();
 
         if(source != null)
