@@ -93,12 +93,6 @@ public class GoogleScraper extends Scraper{
 		Document doc = null;
 		for(String link : getLinks(input)){
 			doc = connectToUrl(link);
-			if(doc == null) {
-				ArrayList<String> toRet = new ArrayList<String>();
-				toRet.add("");
-
-				return toRet;
-			}
 			Elements results = doc.select("p");
 
 			for(Element result : results) {

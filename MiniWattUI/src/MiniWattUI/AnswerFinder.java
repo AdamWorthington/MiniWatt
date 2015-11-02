@@ -25,6 +25,9 @@ public class AnswerFinder
 	
 	private List<ImmutablePair<String, Integer>> searchOnKeyword(String keyword, String source, Question question)
 	{
+		if(source == null)
+			return null;
+
 		List<ImmutablePair<String, Integer>> result = new ArrayList<ImmutablePair<String, Integer>>();
 		String src = source;
 		

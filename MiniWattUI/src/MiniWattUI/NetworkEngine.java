@@ -65,6 +65,8 @@ public class NetworkEngine
             ArrayList<String> links = gs.getLinks(input);
             System.err.println("d: " + links);
             sources.add(gs.getInfo(links, input));
+            if(source != null && source.isEmpty() == false)
+                sources.get(sources.size() - 1).add(source);
         }
         System.err.println("2: " + sources.toString());
         AnswerPackager AP = new AnswerPackager(parameterQuestions, sources);
