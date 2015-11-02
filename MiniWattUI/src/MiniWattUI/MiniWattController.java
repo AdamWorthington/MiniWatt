@@ -76,7 +76,7 @@ public class MiniWattController implements Initializable {
     @FXML VBox historyVBox;
     private boolean historyShowing;
     ObservableList<String> historyList;
-    Map<String, String> historyMap;
+    Map<String, ArrayList<MiniWattResult>> historyMap;
 
     @FXML VBox resultsVBox;
     @FXML TextArea resultsTextArea;
@@ -99,14 +99,14 @@ public class MiniWattController implements Initializable {
         mainHBox.getChildren().remove(historyVBox);
         historyShowing = false;
         historyList = FXCollections.observableArrayList();
-        historyMap = new HashMap<String, String>();
+        historyMap = new HashMap<String, ArrayList<MiniWattResult>>();
         historyListView.setItems(historyList);
 
         historyListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (newValue == null) return;
-                //showResults(historyMap.get(newValue));
+                showResults(historyMap.get(newValue));
             }
         });
 
@@ -236,8 +236,8 @@ public class MiniWattController implements Initializable {
                     return;
                 }
                 statusDialog.close();
-                //historyMap.put(questionSetTitle + "...", results);
-                //historyList.add(questionSetTitle + "...");
+                historyMap.put(questionSetTitle + "...", res);
+                historyList.add(questionSetTitle + "...");
                 showResults(res);
             }
         });
