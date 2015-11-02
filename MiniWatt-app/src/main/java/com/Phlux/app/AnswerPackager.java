@@ -1,17 +1,17 @@
 package com.Phlux.app;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.ImmutableTriple;
-import org.apache.pdfbox.pdmodel.PDDocument;
 
 public class AnswerPackager 
 {
 	private List<Question> questions;
 	private List<List<String>> sources;
-	private List<ImmutableTriple<Question, String, Integer>> results;
+	private List<MiniWattResult> results;
 	
 	private boolean isSingleSource = false;
 	
@@ -21,9 +21,9 @@ public class AnswerPackager
 		this.isSingleSource = isSingleSource;
 	}
 	
-	public List<ImmutableTriple<Question, String, Integer>> getAnswers()
+	public List<MiniWattResult> getAnswers()
 	{
-		results = new ArrayList<ImmutableTriple<Question, String, Integer>>();
+		results = new ArrayList<MiniWattResult>();
 		
 		if(isSingleSource)
 		{
@@ -31,8 +31,11 @@ public class AnswerPackager
 			for(Question q : questions)
 			{
 				List<ImmutablePair<String, Integer>> res = finder.findAnswer(q);
-				for(ImmutablePair<String, Integer> pair : res)
-					results.add(new ImmutableTriple<Question, String, Integer>(q, pair.getLeft(), pair.getRight()));
+				Collections.sort(res, new ResultComparator());
+				//We only want to keep the top 3 results.
+				while(res.size() > 3)
+					res.remove(res.size() - 1);
+				MiniWattResult r = new MiniWattResult(q, res);
 			}
 		}
 		
@@ -40,10 +43,21 @@ public class AnswerPackager
 		{
 			AnswerFinder finder = new AnswerFinder(sources.get(i));
 			List<ImmutablePair<String, Integer>> res = finder.findAnswer(questions.get(i));
-			for(ImmutablePair<String, Integer> pair : res)
-				results.add(new ImmutableTriple<Question, String, Integer>(questions.get(i), pair.getLeft(), pair.getRight()));
+			Collections.sort(res, new ResultComparator());
+			//We only want to keep the top 3 results.
+			while(res.size() > 3)
+				res.remove(res.size() - 1);
+			MiniWattResult r = new MiniWattResult(questions.get(i), res);
 		}
 		
 		return results;
+	}
+}
+
+class ResultComparator implements Comparator<ImmutablePair<String, Integer>>
+{
+	public int compare(ImmutablePair<String, Integer> a, ImmutablePair<String, Integer> b)
+	{
+		return a.right.compareTo(b.right);
 	}
 }

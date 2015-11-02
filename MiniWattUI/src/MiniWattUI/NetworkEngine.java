@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.apache.pdfbox.io.IOUtils;
 import sun.misc.BASE64Encoder;
 
@@ -69,14 +70,16 @@ public class NetworkEngine
 
             //System.out.println(response.getStatusLine());
             HttpEntity entity = response.getEntity();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
+
+            String json_string = EntityUtils.toString(entity);
+            /*BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
             StringBuilder out = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
                 out.append(line);
-            }
+            }*/
             //System.out.println(out.toString());   //Prints the string content read from input stream
-            return out.toString();
+            return json_string;
 
         }
         finally

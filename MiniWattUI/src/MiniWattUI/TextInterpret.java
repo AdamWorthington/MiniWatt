@@ -25,6 +25,7 @@ public final class TextInterpret
 	{
 		throw new AssertionError();
 	}
+	private static final String tessPath = "C:/Tess4J";
 	
 	/*
 	 * Given a list of strings, the function extracts all questions from within the strings
@@ -51,7 +52,7 @@ public final class TextInterpret
 	public static String[] parseImage(File file) throws IOException, TesseractException
 	{
 		Tesseract t = new Tesseract();
-		t.setDatapath("C:/Users/cdwil/Documents/Tess4J-2.0-src/Tess4J");
+		t.setDatapath(tessPath);
 		String rawText = t.doOCR(file);
 		String[] text = rawText.split("\n");
 		
