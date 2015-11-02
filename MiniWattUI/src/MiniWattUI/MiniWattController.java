@@ -263,8 +263,17 @@ public class MiniWattController implements Initializable {
 
     @FXML void onQuestionFileBrowseClicked(ActionEvent event) {
         File qFile = browseFile(event);
-        if (qFile != null) {
+        if (qFile != null)
+        {
+            submitStatusLabel.setText("");
+
             questionsFile = qFile;
+            String questionsFromFile = parseFile(questionsFile);
+            questionsTextArea.setText(questionsFromFile);
+            if(questionsFromFile != null && questionsFromFile.isEmpty() || questionsFromFile == null)
+            {
+                submitStatusLabel.setText("Error parsing the file!");
+            }
             questionsFileText.setText(questionsFile.getName());
             questionsFromFileButton.fire();
         }
@@ -273,13 +282,23 @@ public class MiniWattController implements Initializable {
     @FXML void onQuestionFileClearClicked() {
         questionsFile = null;
         questionsFileText.setText("no file chosen");
+        questionsTextArea.clear();
         questionsAsTextButton.fire();
     }
 
     @FXML void onReferenceFileBrowseClicked(ActionEvent event) {
         referenceFile = browseFile(event);
-        if (referenceFile != null) {
+        if (referenceFile != null)
+        {
+            submitStatusLabel.setText("");
+
             referenceFileText.setText(referenceFile.getName());
+            String referenceFromFile = parseFile(referenceFile);
+            referenceTextArea.setText(referenceFromFile);
+            if(referenceFromFile != null && referenceFromFile.isEmpty() || referenceFromFile == null)
+            {
+                submitStatusLabel.setText("Error parsing the file!");
+            }
             referenceFromFileButton.fire();
         } else {
             referenceFileText.setText("no file chosen");
@@ -288,6 +307,7 @@ public class MiniWattController implements Initializable {
 
     @FXML void onReferenceFileClearClicked() {
         referenceFile = null;
+        referenceTextArea.clear();
         referenceFileText.setText("no file chosen");
         referenceAsNullButton.fire();
     }
@@ -320,6 +340,7 @@ public class MiniWattController implements Initializable {
                 builder.append(ip.getRight());
                 builder.append("\n");
             }
+            builder.append("\n");
         }
 
         resultsShowing = true;
@@ -345,7 +366,9 @@ public class MiniWattController implements Initializable {
         browse.setInitialDirectory(new File(path));
 
         File file = browse.showOpenDialog(((Node)event.getTarget()).getScene().getWindow());
-        if (file != null) lastFilePath = file.getParent();
+        if (file != null) {
+            lastFilePath = file.getParent();
+        }
         return file;
     }
 

@@ -59,28 +59,34 @@ public class NetworkEngine
         int pageNum = 2;
         GoogleScraper gs = new GoogleScraper(pageNum);
 
-        for (String question : questions) {
+        for (String question : questions)
+        {
+            ArrayList<String> curSourcesForQ = new ArrayList<String>();
+            //Make the question object.
             Question temp = new Question(question);
+            //Add it to the list of running questions
             parameterQuestions.add(temp);
+
             String subject = temp.getSubject();
             System.err.println("b: " + subject);
             String[] input = subject.split(" ");
             System.err.println("c: " + Arrays.toString(input));
             ArrayList<String> links = gs.getLinks(input);
             System.err.println("d: " + links);
-            ArrayList<String> gsInfo = gs.getInfo(links, input);
-            if(gsInfo != null)
-                sources.add(gsInfo);
-            if(source != null && source.isEmpty() == false)
-                sources.get(sources.size() - 1).add(source);
 
-            if(sources.isEmpty()) {
+            //Get the links, given the input
+            ArrayList<String> gsInfo = gs.getInfo(links, input);
+            //If we get some content back , add it to our current sources.
+            if(gsInfo != null)
+                curSourcesForQ.addAll(gsInfo);
+
+            //If JSoup links failed to generate content, do a direct check of Wikipedia
+            if(sources.isEmpty())
+            {
                 //public getInfo(String URL, String SUBJECT, String QUESTION)
                 String info = "";
                 try {
                     String link = "http://en.wikipedia.org/wiki/" + subject.replace(' ', '_');
-                    // public void getText(String url, String subject, String question) throws IOException {
-
                     Document doc = Jsoup.connect(link).get();
                     Elements paragraphs = doc.select("p");
                     for (Element p : paragraphs) {
@@ -90,16 +96,19 @@ public class NetworkEngine
                 catch (Exception e)
                 {
                     System.err.println(e.toString());
-                    continue;
                 }
 
-                ArrayList<String> tmp = new ArrayList<String>();
-                tmp.add(info);
-                sources.add(tmp);
+                //If we got some wikipedia content, add that.
+                if(info.isEmpty() == false)
+                    curSourcesForQ.add(info);
             }
+
+            //If we are passed a reference source, then add that to the list of sources.
+            if(source != null && source.isEmpty() == false)
+                curSourcesForQ.add(source);
+
+            sources.add(curSourcesForQ);
         }
-
-
 
         System.err.println("2: " + sources.toString());
         AnswerPackager AP = new AnswerPackager(parameterQuestions, sources);
