@@ -9,6 +9,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.text.Text;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Queue;
 
 public class Controller
@@ -42,15 +43,15 @@ public class Controller
 
         try
         {
-            String[] questionDoc = null;
-            String[] sourceDoc = null;
+            String questionDoc = null;
+            String sourceDoc = null;
             String extension = getFileExtension(questionFile);
             if(extension.compareTo("pdf") == 0)
                 questionDoc = TextInterpret.parseDocument(questionFile);
             else
                 questionDoc = TextInterpret.parseImage(questionFile);
 
-            Queue<String> questions = TextInterpret.extractQuestions(questionDoc);
+            ArrayList<String> questions = TextInterpret.extractQuestions(questionDoc);
 
             if(sourceFile != null)
             {

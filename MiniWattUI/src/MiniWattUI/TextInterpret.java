@@ -85,7 +85,7 @@ public final class TextInterpret
 	 * Given a File that points to a PDF with searchable text, will extract
 	 * all text from the PDF file.
 	 */
-	public static String[] parseDocument(PDDocument doc) throws IOException
+	public static String parseDocument(PDDocument doc) throws IOException
 	{
 		String rawText;
 
@@ -95,9 +95,8 @@ public final class TextInterpret
 		
 		rawText = stripper.getText(doc);
 		doc.close();
-		String[] text = rawText.split("\n");
-		
-		return text;
+
+		return rawText;
 	}
 }
 

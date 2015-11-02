@@ -50,7 +50,7 @@ public class NetworkEngine
 
     public static String post_question(ArrayList<String> questions, String source) throws Exception
     {
-        JSONObject jobj = new JSONObject();
+        /*JSONObject jobj = new JSONObject();
 
         if(source != null)
         {
@@ -79,20 +79,18 @@ public class NetworkEngine
             //System.out.println(response.getStatusLine());
             HttpEntity entity = response.getEntity();
 
-            String json_string = EntityUtils.toString(entity);
-            /*BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
             StringBuilder out = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
                 out.append(line);
-            }*/
-            //System.out.println(out.toString());   //Prints the string content read from input stream
-            return json_string;
-
+            }
+            System.out.println(out.toString());   //Prints the string content read from input stream
+            return out.toString();
         }
         finally
         {
             client.close();
-        }
+        }*/
     }
 }
