@@ -225,7 +225,6 @@ public class QuestionParser
 							word = temp;
 							q.setSubject(subject);
 							subjectEnd = previous_index;
-							System.out.println(previous_index);
 							return;
 						}
 						else
@@ -245,7 +244,6 @@ public class QuestionParser
 								word = temp;
 								q.setSubject(subject);
 								subjectEnd = previous_index;
-								System.out.println("Subject: " + subject + " Pos: " + subjectEnd);
 								return;
 							}
 							else
@@ -272,7 +270,6 @@ public class QuestionParser
 								word = temp;
 								q.setSubject(subject);
 								subjectEnd = previous_index;
-								System.out.println("Subject: " + subject + " Pos: " + subjectEnd);
 								return;
 							}
 						}
@@ -292,7 +289,6 @@ public class QuestionParser
 						//end case of proper subject
 						q.setSubject(subject);
 						subjectEnd = previous_index;
-						System.out.println("Subject: " + subject + " Pos: " + subjectEnd);
 						return;
 					}
 					else if(!upper)
@@ -309,14 +305,13 @@ public class QuestionParser
 				if(subject.length() > 1)
 				{
 					subjectEnd = previous_index;
-					System.out.println("Subject: " + subject + " Pos: " + subjectEnd);
 					return;
 				}
 			}
 		}
 		q.setSubject(subject);
 		subjectEnd = previous_index;
-		System.out.println("Subject: " + subject + " Pos: " + subjectEnd);
+
 	}
 	
 	public static void findKeyWords(Question q)
