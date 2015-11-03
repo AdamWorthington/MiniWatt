@@ -62,8 +62,10 @@ public class NetworkEngine
         for (String question : questions)
         {
             ArrayList<String> curSourcesForQ = new ArrayList<String>();
-            //Make the question object.
+            //Make the question object. If it is invalid, ignore it.
             Question temp = new Question(question);
+            if(temp.getType() == Question.QuestionType.INVALID)
+                continue;
             //Add it to the list of running questions
             parameterQuestions.add(temp);
 

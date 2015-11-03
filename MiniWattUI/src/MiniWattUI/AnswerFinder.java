@@ -251,7 +251,8 @@ public class AnswerFinder
 		
 		if(answers.size() == 0)
 		{
-			answers.add(new ImmutablePair<String, Integer>("No Answer", 100));
+			//Defect #1
+			//answers.add(new ImmutablePair<String, Integer>("No Answer", 100));
 		}
 
 		return answers;

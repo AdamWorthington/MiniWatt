@@ -33,6 +33,8 @@ public class AnswerPackager
 				res.remove(res.size() - 1);
 			MiniWattResult r = new MiniWattResult(questions.get(i), res);
 			results.add(r);
+			//defect #2
+			//finder.dispose();
 		}
 		
 		return results;

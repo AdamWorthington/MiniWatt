@@ -137,7 +137,8 @@ public final class DocumentUtils
 					{
 						contentStream.drawString(answer);
 						answer = "";
-						curWidth += textWidth;
+						//Defect #4
+						//curWidth += textWidth;
 					}
 					else
 						lastSpace = space;
@@ -146,7 +147,8 @@ public final class DocumentUtils
 			
 			curWidth = 0;
 			contentStream.moveTextPositionByAmount(0, -leading);
-			
+
+
 			curHeight += leading;
 			if(curHeight > height)
 			{
