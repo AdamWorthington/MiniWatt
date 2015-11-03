@@ -33,7 +33,7 @@ public class Question
 	/*
 	 * The prepositions linked to the subject
 	 */
-	LinkedList<String> subject_prepositions;
+	String[] subject_prepositions;
 	/*
 	 * The predicate of the question
 	 */
@@ -41,13 +41,16 @@ public class Question
 	/*
 	 * The prepositions linked to the predicate
 	 */
-	LinkedList<String> predicate_prepositions;
+	String[] predicate_prepositions;
 	/*
 	 * Object that holds all of the information in a question
 	 */
 	
 	public Question(String question)
 	{
+		String[] x = new String[2];
+		subject_prepositions = x;
+		predicate_prepositions = x;
 		this.question_text = question;
 		QuestionParser.parseQuestion(this, this.question_text);
 	}
@@ -76,12 +79,12 @@ public class Question
 		return predicate_text;
 	}
 	
-	public LinkedList<String> getSubjectPrepositions()
+	public String[] getSubjectPrepositions()
 	{
 		return subject_prepositions;
 	}
 	
-	public LinkedList<String> getPredicatePrepositions()
+	public String[] getPredicatePrepositions()
 	{
 		return predicate_prepositions;
 	}
@@ -104,13 +107,13 @@ public class Question
 		predicate_text = predicate;
 	}
 	
-	public void setSubjectPrepositions(LinkedList<String> preps)
+	public void setSubjectPrepositions(String preps)
 	{
-		subject_prepositions = preps;
+		subject_prepositions[0] = preps;
 	}
 	
-	public void setPredicatePrepositions(LinkedList<String> preps)
+	public void setPredicatePrepositions(String preps)
 	{
-		predicate_prepositions = preps;
+		predicate_prepositions[0] = preps;
 	}
 }
