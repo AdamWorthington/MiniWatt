@@ -37,7 +37,7 @@ public class SubmitStatusDialog {
 
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.show();
+        //stage.show();
     }
 
     public void close() {

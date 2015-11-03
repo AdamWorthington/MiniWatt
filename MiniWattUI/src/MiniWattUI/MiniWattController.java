@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.RunnableFuture;
 
 /**
  * Created by Chris Doak on 10/21/2015.
@@ -89,7 +90,6 @@ public class MiniWattController implements Initializable {
 
         questionsAsTextButton.fire();
         questionsAsTextButton.setToggleGroup(questionsToggle);
-        questionsFromFileButton.setToggleGroup(questionsToggle);
 
         referenceAsNullButton.fire();
         referenceFromFileButton.setToggleGroup(referenceToggle);
@@ -146,9 +146,7 @@ public class MiniWattController implements Initializable {
 
     @FXML void onSubmitButtonClicked() {
 
-        resetStatusLabels();
         submitButton.setDisable(true);
-
         final SubmitStatusDialog statusDialog = new SubmitStatusDialog(primaryStage);
 
         Platform.runLater(new Runnable() {
@@ -160,12 +158,6 @@ public class MiniWattController implements Initializable {
                 String referenceDoc;
 
                 if (questionsToggle.getSelectedToggle().equals(questionsAsTextButton)) {
-                    if (questionsTextArea.getText().isEmpty()) {
-                        questionsStatusLabel.setText("Please provide questions as text!");
-                        submitButton.setDisable(false);
-                        statusDialog.close();
-                        return;
-                    }
                     statusDialog.setText("Parsing questions text...");
                     questionsDoc = questionsTextArea.getText();
                     questionSetTitle = questionsDoc.split("\n")[0];
@@ -185,11 +177,15 @@ public class MiniWattController implements Initializable {
                 if (questionsDoc != null) {
                     statusDialog.setText("Extracting questions...");
                     questions = TextInterpret.extractQuestions(questionsDoc);
+                    if (questions == null) {
+                        questionsStatusLabel.setText("No questions found.");
+                        submitButton.setDisable(false);
+                        statusDialog.close();
+                        return;
+                    }
                 } else {
                     questionsStatusLabel.setText("Error with questioins.");
-                    submitButton.setDisable(false);
-                    statusDialog.close();
-                    return;
+                    questions = null;
                 }
 
                 if (referenceToggle.getSelectedToggle().equals(referenceAsTextButton)) {
@@ -202,12 +198,6 @@ public class MiniWattController implements Initializable {
                     statusDialog.setText("Parsing reference text...");
                     referenceDoc = referenceTextArea.getText();
                 } else if (referenceToggle.getSelectedToggle().equals(referenceFromFileButton)) {
-                    if (referenceFile == null) {
-                        referenceStatusLabel.setText("Please provide a reference file!");
-                        submitButton.setDisable(false);
-                        statusDialog.close();
-                        return;
-                    }
                     statusDialog.setText("Parsing reference document...");
                     referenceDoc = parseFile(referenceFile);
                     if (referenceDoc == null) {
@@ -215,13 +205,6 @@ public class MiniWattController implements Initializable {
                     }
                 } else {
                     referenceDoc = null;
-                }
-
-                if (questions.isEmpty()) {
-                    questionsStatusLabel.setText("No questions found.");
-                    submitButton.setDisable(false);
-                    statusDialog.close();
-                    return;
                 }
 
                 statusDialog.setText("Sending data to MiniWatt server...");
@@ -318,10 +301,8 @@ public class MiniWattController implements Initializable {
 
     // Shows the results of the query in the results panel.
     private void showResults(ArrayList<MiniWattResult> results) {
-        if (!resultsShowing) {
-            mainHBox.getChildren().remove(mainScrollPane);
-            mainHBox.getChildren().add(0, resultsVBox);
-        }
+        mainHBox.getChildren().remove(mainScrollPane);
+        mainHBox.getChildren().add(0, resultsVBox);
 
         StringBuilder builder = new StringBuilder();
 
@@ -331,16 +312,19 @@ public class MiniWattController implements Initializable {
             builder.append(mwr.getQuestion().getQuestionText());
             builder.append("\n");
             List<ImmutablePair<String, Integer>> data = mwr.getResults();
+            if (mwr.getQuestion().equals("What is love?")) {
+                builder.append("Answer: ");
+                builder.append("Baby don't hurt me!");
+                builder.append("Confidence: ");
+                builder.append("100");
+            }
             for(ImmutablePair<String, Integer> ip : data)
             {
                 builder.append("Answer: ");
                 builder.append(ip.getLeft());
-                builder.append("\n");
                 builder.append("Confidence: ");
                 builder.append(ip.getRight());
-                builder.append("\n");
             }
-            builder.append("\n");
         }
 
         resultsShowing = true;
