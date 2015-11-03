@@ -31,12 +31,12 @@ public class QuestionParser
 	public static int subjectEnd;
 	public static void parseQuestion(Question question, String q_text)
 	{
-		LinkedList<String> temp = new LinkedList<String>();
-		question.setPredicatePrepositions(temp);
-		question.setSubjectPrepositions(temp);
+		//LinkedList<String> temp = new LinkedList<String>();
+		//question.setPredicatePrepositions(temp);
+		//question.setSubjectPrepositions(temp);
 		question_text = q_text;
 		QuestionType type = QuestionType.INVALID;
-		if(q_text == null || q_text.length() < 3)
+		if(q_text == null)
 		{
 			question.setType(type);
 		}
@@ -44,6 +44,12 @@ public class QuestionParser
 		{
 			type = getType(q_text, question);
 			question.setType(type);
+		}
+		if(q_text.compareTo("Who is Champ?") == 0)
+		{
+			question.setPredicate("JOHN CENA");
+			question.setSubject("JOHN CENA");
+			return;
 		}
 		if(question.getType() == QuestionType.INVALID)
 		{
@@ -125,11 +131,7 @@ public class QuestionParser
 			moveFrontLoad(q, "which");
 			return QuestionType.WHICH;
 		}
-		else
-		{
-			//no question word found
-			return QuestionType.INVALID;
-		}
+		return QuestionType.WHEN;
 	}
 	
 	/*
@@ -175,9 +177,10 @@ public class QuestionParser
 		int previous_index = 0;
 		int current_index = text.indexOf(' ', previous_index);
 		String word = text.substring(previous_index, current_index);
-		String subject = "";
+		String subject = null;
 		boolean upper = false;
 		int lastUpper = 0;
+		boolean first = true;
 		while(current_index > 0)
 		{
 			//get the next word
@@ -196,6 +199,11 @@ public class QuestionParser
 			
 			if(!foundIn(word, uselessWords))
 			{
+				if(first)
+				{
+					subject = "";
+					first = false;
+				}
 				if(Character.isUpperCase(word.charAt(0)))
 				{
 					upper = true;
@@ -320,7 +328,8 @@ public class QuestionParser
 		int previous_index = subjectEnd;
 		int current_index = text.indexOf(' ', previous_index);
 		String word;
-		String predicate = "";
+		String predicate = null;
+		boolean first = true;
 		if(current_index < 0)
 		{
 			word = text.substring(previous_index, text.length());
@@ -334,6 +343,11 @@ public class QuestionParser
 		}
 		if(!foundIn(word, uselessWords))
 		{
+			if(first)
+			{
+				predicate = "";
+				first = false;
+			}
 			predicate = predicate.concat(word);
 			predicate = predicate.concat(" ");
 		}
@@ -344,6 +358,11 @@ public class QuestionParser
 		}
 		while(current_index > 0)
 		{
+			if(first)
+			{
+				predicate = "";
+				first = false;
+			}
 			//get the next word starting where the subject ended
 			previous_index = current_index + 1;
 			current_index = text.indexOf(' ', previous_index);
@@ -365,7 +384,7 @@ public class QuestionParser
 		}
 		q.setPredicate(predicate);
 	}
-	
+
 	//printer method
 	public static void printer(Question q)
 	{
