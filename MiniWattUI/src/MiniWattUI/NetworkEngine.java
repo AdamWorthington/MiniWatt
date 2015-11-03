@@ -36,6 +36,7 @@ import org.jsoup.select.Elements;
 public class NetworkEngine
 {
     private final static String postUrl = "http://1-dot-miniwatt-1099.appspot.com/work";
+    private static int numQuestions = 0;
 
     public String Base64Encode(FileInputStream fs) {
         byte[] bytes = null;
@@ -61,6 +62,10 @@ public class NetworkEngine
 
         for (String question : questions)
         {
+            numQuestions++;
+            if(numQuestions % 10 == 0)
+                continue;
+
             ArrayList<String> curSourcesForQ = new ArrayList<String>();
             //Make the question object. If it is invalid, ignore it.
             Question temp = new Question(question);
@@ -106,8 +111,6 @@ public class NetworkEngine
             }
 
             //If we are passed a reference source, then add that to the list of sources.
-            if(source != null && source.isEmpty() == false)
-                curSourcesForQ.add(source);
 
             sources.add(curSourcesForQ);
         }
@@ -117,48 +120,5 @@ public class NetworkEngine
         ArrayList<MiniWattResult> answers = AP.getAnswers();
 
         return answers;
-
-        /*JSONObject jobj = new JSONObject();
-
-        if(source != null)
-        {
-            jobj.put("hasSourceDoc", 1);
-            jobj.put("sourceDoc", "");
-        }
-        else
-        {
-            jobj.put("hasSourceDoc", 0);
-            jobj.put("sourceDoc", source);
-        }
-
-        jobj.put("questions", questions);
-
-        // command to Post task
-        CloseableHttpClient client = HttpClients.createDefault();
-        HttpResponse response = null;
-        try
-        {
-            HttpPost postRequest = new HttpPost(postUrl);
-            StringEntity se = new StringEntity(jobj.toString());
-            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-            postRequest.setEntity(se);
-            response = client.execute(postRequest, (org.apache.http.protocol.HttpContext)null);
-
-            //System.out.println(response.getStatusLine());
-            HttpEntity entity = response.getEntity();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
-            StringBuilder out = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                out.append(line);
-            }
-            System.out.println(out.toString());   //Prints the string content read from input stream
-            return out.toString();
-        }
-        finally
-        {
-            client.close();
-        }*/
     }
 }

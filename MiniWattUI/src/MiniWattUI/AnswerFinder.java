@@ -107,6 +107,8 @@ public class AnswerFinder
 			
 			//if it contained at least a keyword, we add the result.
 			//if(predWordsPresent)
+			if(sentence.length() > 4000)
+				sentence = sentence.substring(0, 4000);
 			result.add(new ImmutablePair<String, Integer>(sentence, certainty));
 		}
 		
@@ -251,8 +253,6 @@ public class AnswerFinder
 		
 		if(answers.size() == 0)
 		{
-			//Defect #1
-			//answers.add(new ImmutablePair<String, Integer>("No Answer", 100));
 		}
 
 		return answers;

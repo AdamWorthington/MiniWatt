@@ -27,10 +27,6 @@ public class AnswerPackager
 		{
 			AnswerFinder finder = new AnswerFinder(sources.get(i));
 			List<ImmutablePair<String, Integer>> res = finder.findAnswer(questions.get(i));
-			Collections.sort(res, new ResultComparator());
-			//We only want to keep the top 3 results.
-			while(res.size() > 3)
-				res.remove(res.size() - 1);
 			MiniWattResult r = new MiniWattResult(questions.get(i), res);
 			results.add(r);
 		}
