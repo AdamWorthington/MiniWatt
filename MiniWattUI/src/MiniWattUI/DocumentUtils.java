@@ -137,8 +137,6 @@ public final class DocumentUtils
 					{
 						contentStream.drawString(answer);
 						answer = "";
-						//Defect #4
-						//curWidth += textWidth;
 					}
 					else
 						lastSpace = space;

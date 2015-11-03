@@ -70,18 +70,18 @@ public class AnswerFinder
 			
 			//Try to find the subject in the sentence.
 			boolean keywordPresent = sentence.contains(" " + keyword + " ");
-			if(!keywordPresent)
-				continue;
-			
+
+			if(!keywordPresent);
+
 			//It contains the keyword
 			certainty += 25;
 
 			//Try to find the subject in the sentence.
 			subject = subject.trim();
 			int subjectIndex = sentence.indexOf(subject);
-			if(subjectIndex == -1)
-				continue;
-			
+
+			if(subjectIndex == -1);
+
 			//It contains the subject
 			certainty += 25;
 			
