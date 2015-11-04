@@ -150,16 +150,6 @@ public final class DocumentUtils
 		contentStream.endText();
 		contentStream.close();
 
-		/*To create the filename*/
-		Calendar curTime = Calendar.getInstance();
-		SimpleDateFormat format = new SimpleDateFormat("h'hrs',m'mins',s'sec'");
-		String filName = "";
-		filName += format.format(curTime.getTime());
-		filName += ".pdf";
-
-		pdfAnswers.save(filName);
-		pdfAnswers.close();
-
 		return pdfAnswers;
 	}
 
