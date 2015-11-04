@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import net.sourceforge.tess4j.TesseractException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.pdfbox.pdmodel.PDDocument;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,6 +82,7 @@ public class MiniWattController implements Initializable {
     @FXML VBox resultsVBox;
     @FXML TextArea resultsTextArea;
     private boolean resultsShowing;
+    private ArrayList<MiniWattResult> shownResults;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -248,6 +250,7 @@ public class MiniWattController implements Initializable {
         mainHBox.getChildren().remove(resultsVBox);
         mainHBox.getChildren().add(0, mainScrollPane);
         resultsShowing = false;
+        shownResults = null;
         historyListView.getSelectionModel().select(null);
     }
 
@@ -312,6 +315,35 @@ public class MiniWattController implements Initializable {
         referenceAsNullButton.fire();
     }
 
+    @FXML void onExportAsPdfButtonClicked(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export As PDF");
+
+        String path;
+        if (lastFilePath == null) {
+            path = System.getProperty("user.home");
+        } else {
+            path = lastFilePath;
+        }
+
+        fileChooser.setInitialDirectory(new File(path));
+
+        ExtensionFilter pdfFilter = new ExtensionFilter("PDF Document (*.pdf)","*.pdf");
+        fileChooser.getExtensionFilters().add(pdfFilter);
+
+        File file = fileChooser.showSaveDialog(((Node)event.getTarget()).getScene().getWindow());
+
+        if (file != null ) {
+            lastFilePath = file.getParent();
+            try {
+                PDDocument resultsDoc = DocumentUtils.createAnswerDoc(shownResults);
+                resultsDoc.save(file);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void setStage(Stage stage) {
         primaryStage = stage;
     }
@@ -322,6 +354,7 @@ public class MiniWattController implements Initializable {
             mainHBox.getChildren().remove(mainScrollPane);
             mainHBox.getChildren().add(0, resultsVBox);
         }
+        shownResults = results;
 
         StringBuilder builder = new StringBuilder();
 
