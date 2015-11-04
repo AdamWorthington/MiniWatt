@@ -53,7 +53,6 @@ public final class DocumentUtils
 	public static PDDocument createAnswerDoc(ArrayList<MiniWattResult> results) throws IOException, COSVisitorException
 	{
 		PDDocument pdfAnswers = new PDDocument();
-		PDFont questionFont = PDType1Font.TIMES_ITALIC;
 		PDFont answerFont = PDType1Font.TIMES_ROMAN;
 
 		PDPage page = new PDPage(PDPage.PAGE_SIZE_LETTER);
@@ -97,56 +96,69 @@ public final class DocumentUtils
 			builder.append("\n");
 		}
 
-		String toPrint = builder.toString();
+		String bigString = builder.toString();
+		String[] broken = bigString.split("\n");
 
 		contentStream.setFont(answerFont, fontSize);
-		while(toPrint.length() > 0)
+		for(String toPrint : broken)
 		{
-			int space = toPrint.indexOf(' ', lastSpace + 1);
-			if(space < 0)
-				space = toPrint.length();
-
-			String subString = toPrint.substring(0, space);
-			float textWidth = fontSize * questionFont.getStringWidth(subString) / 1000;
-			if(textWidth + curWidth > width)
+			char[] chars = toPrint.toCharArray();
+			String filtered = "";
+			for(char c : chars)
 			{
-				if(lastSpace < 0)
+				if(c < 0 || c > 127)
+					continue;
+				else
+					filtered = filtered.concat(String.valueOf(c));
+			}
+
+			toPrint = filtered;
+
+			while (toPrint.length() > 0) {
+				int space = toPrint.indexOf(' ', lastSpace + 1);
+				if (space < 0)
+					space = toPrint.length();
+
+				String subString = toPrint.substring(0, space);
+				float textWidth = fontSize * answerFont.getStringWidth(subString) / 1000;
+				if (textWidth + curWidth > width) {
+					if (lastSpace < 0)
+						lastSpace = space;
+					subString = toPrint.substring(0, lastSpace);
+					contentStream.drawString(subString);
+					toPrint = toPrint.substring(lastSpace).trim();
+					lastSpace = -1;
+
+					contentStream.moveTextPositionByAmount(0, -leading);
+					curWidth = 0;
+				} else if (space == toPrint.length()) {
+					contentStream.drawString(toPrint);
+					toPrint = "";
+					curWidth += textWidth;
+				} else
 					lastSpace = space;
-				subString = toPrint.substring(0, lastSpace);
-				contentStream.drawString(subString);
-				toPrint = toPrint.substring(lastSpace).trim();
-				lastSpace = -1;
-
-				contentStream.moveTextPositionByAmount(0, -leading);
-				curWidth = 0;
 			}
-			else if(space == toPrint.length())
+
+			curWidth = 0;
+			contentStream.moveTextPositionByAmount(0, -leading);
+
+			curHeight += leading;
+			if(curHeight > height)
 			{
-				contentStream.drawString(toPrint);
-				toPrint = "";
-				curWidth += textWidth;
+				contentStream.endText();
+				contentStream.close();
+
+				PDPage newPage = new PDPage(PDPage.PAGE_SIZE_LETTER);
+				pdfAnswers.addPage(newPage);
+
+				contentStream = new PDPageContentStream(pdfAnswers, newPage);
+				contentStream.beginText();
+				contentStream.moveTextPositionByAmount(startX, startY);
+				curHeight = 0;
 			}
-			else
-				lastSpace = space;
 		}
 
-		curWidth = 0;
-		contentStream.moveTextPositionByAmount(0, -leading);
 
-		curHeight += leading;
-		if(curHeight > height)
-		{
-			contentStream.endText();
-			contentStream.close();
-
-			PDPage newPage = new PDPage(PDPage.PAGE_SIZE_LETTER);
-			pdfAnswers.addPage(newPage);
-
-			contentStream = new PDPageContentStream(pdfAnswers, newPage);
-			contentStream.beginText();
-			contentStream.moveTextPositionByAmount(startX, startY);
-			curHeight = 0;
-		}
 		contentStream.endText();
 		contentStream.close();
 
