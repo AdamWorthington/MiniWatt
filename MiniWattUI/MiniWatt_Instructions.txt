@@ -1,0 +1,33 @@
+------------------------ MINI WATT ---------------------------
+
+Program Purpose: To provide answers to questions using the internet and/or provided reference material.
+
+Adding Questions to be Answered:
+To get questions answered, there are two options: as text or from a file.
+In the MiniWatt User Interface there is a questions section.
+Beneath the title that says "Questions" are two buttons that say "As Text" and "From File"
+If you just want to type in your questions, type them in the questions text area with a question mark and a newline after each question.
+If you have a PDF or image file (bmp, jpg, jpeg, png) that contain questions, click the browse button beneath the text box, and then use the file chooser to choose the file.
+
+Adding Reference Material (Optional):
+If you have material, like a research paper, that you want MiniWatt to use as source material for question answering, you can do that.
+Similarly to the question adding process, you can either paste in your reference material or choose a file that contains reference material.
+Use the buttons under the "Reference" label to select which format you provide.
+If you do not have reference material, you can leave the "No Reference" button beneath the "Reference" label selected.
+
+Submitting:
+Once you have your questions in place, and you have your reference if you want it, you can submit the content to get your answers.
+To submit, click the button in the upper right corner with the arrow inside a box on it.
+This will take a while usually, a dialog will appear to tell you it's in progress.
+Once your results come back, they will be shown in a results pane. To close the pane and go back to the submit screen click the close button.
+
+Exporting Answers as PDF:
+From the results pane, if you want to export the question and answer set as a .pdf file, click the "Export PDF" button next to the "Results Label"
+A file save dialog will come up and you can choose the file name and save it as a .pdf.
+
+Using the History Feature:
+After submitting a set of questions, you can access the answers after closing the results pane through the history feature.
+To access a list of history, click on the button with the clock and circular arrow on it and a list of history will pop up on the right.
+The history sets are named with the first question from each question set.
+To view the results again, click on the name of the question set.
+The results pane will pop up again with the answers, and without the wait.
