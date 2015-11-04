@@ -29,6 +29,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.RunnableFuture;
+import org.apache.pdfbox.pdmodel.PDDocument;
 
 /**
  * Created by Chris Doak on 10/21/2015.
@@ -78,6 +79,7 @@ public class MiniWattController implements Initializable {
     private boolean historyShowing;
     ObservableList<String> historyList;
     Map<String, ArrayList<MiniWattResult>> historyMap;
+    private ArrayList<MiniWattResult> shownResults;
 
     @FXML VBox resultsVBox;
     @FXML TextArea resultsTextArea;
@@ -101,6 +103,7 @@ public class MiniWattController implements Initializable {
         historyList = FXCollections.observableArrayList();
         historyMap = new HashMap<String, ArrayList<MiniWattResult>>();
         historyListView.setItems(historyList);
+        shownResults = null;
 
         historyListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -144,7 +147,41 @@ public class MiniWattController implements Initializable {
         });
     }
 
-    @FXML void onSubmitButtonClicked() {
+    @FXML void onExportAsPdfButtonClicked(ActionEvent event) {
+               FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Export As PDF");
+
+                String path;
+         if (lastFilePath == null) {
+            path = System.getProperty("user.home");
+
+        } else {
+            path = lastFilePath;
+
+        }
+
+                fileChooser.setInitialDirectory(new File(path));
+
+                ExtensionFilter pdfFilter = new ExtensionFilter("PDF Document (*.pdf)", "*.pdf");
+        fileChooser.getExtensionFilters().add(pdfFilter);
+
+                File file = fileChooser.showSaveDialog(((Node) event.getTarget()).getScene().getWindow());
+
+                 if (file != null) {
+            lastFilePath = file.getParent();
+             try {
+                PDDocument resultsDoc = DocumentUtils.createAnswerDoc(shownResults);
+                resultsDoc.save(file);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    @FXML
+    void onSubmitButtonClicked() {
 
         submitButton.setDisable(true);
         final SubmitStatusDialog statusDialog = new SubmitStatusDialog(primaryStage);
@@ -303,6 +340,8 @@ public class MiniWattController implements Initializable {
     private void showResults(ArrayList<MiniWattResult> results) {
         mainHBox.getChildren().remove(mainScrollPane);
         mainHBox.getChildren().add(0, resultsVBox);
+
+        shownResults = results;
 
         StringBuilder builder = new StringBuilder();
 

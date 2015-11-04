@@ -79,6 +79,7 @@
                         <HBox fx:id="resultsCloseButton" alignment="CENTER_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <Button mnemonicParsing="false" onAction="#onResultsCloseClicked" text="Close" />
+                              <Button fx:id="exportAsPdfButton" mnemonicParsing="false" text="Export PDF" />
                            </children>
                            <padding>
                               <Insets right="20.0" />
